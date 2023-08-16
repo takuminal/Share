@@ -1,53 +1,82 @@
-Chemical Reaction Prediction and Material Development Tool
-License
+## MATERIALS
+MATERIALSは、化学物質の特性や官能基に関する情報を管理するためのデスクトップアプリケーションです。このアプリケーションを使用することで、化学名やSMILES情報を入力し、化学物質に関するさまざまな情報を取得、記録、表示することができます。
 
-Overview
-The Chemical Reaction Prediction and Material Development Tool is a Python-based project aimed at streamlining the process of acquiring molecular structures and descriptors for chemical compounds. The tool is designed to efficiently retrieve molecular structures and descriptors, and further simulate virtual chemical reactions, providing insights into potential material development strategies.
+#### 主な機能
+化学名またはSMILES情報を入力して、化学物質の特性情報を取得
+選択された官能基の数をカウント
+官能基操作（VinylPolymerize、Acid Deprotonize、Amine Protonize）の適用
+入力データと結果をCSVファイルにログとして記録
+ログされたデータを表示および保存
+使い方
+アプリケーションを起動します。
 
-Features
-Efficient retrieval of molecular structures and descriptors for chemical compounds.
-Simulation of virtual chemical reactions based on retrieved data.
-Generation of molecular structures and descriptors for reaction products.
-Facilitation of material development strategies through streamlined processes.
-Installation
-Clone this repository:
+"Chemical Name or SMILES" フィールドに化学名またはSMILES情報を入力します。
 
-bash
-Copy code
-git clone https://github.com/yourusername/chemical-reaction-tool.git
-Navigate to the project directory:
+"CAS or NAME" または "SMILES" のラジオボタンで入力方法を選択します。
 
-bash
-Copy code
-cd chemical-reaction-tool
-Install the required dependencies:
+必要に応じて、化学反応のチェックボックスを選択して官能基の操作を適用します。
 
-bash
-Copy code
-pip install -r requirements.txt
-Usage
-Run the main script to retrieve molecular structures and descriptors:
+"Run" ボタンをクリックして化学物質情報と官能基数を表示します。
 
-bash
-Copy code
-python retrieve_structures.py
-Execute virtual chemical reactions and generate product structures and descriptors:
+必要に応じて、"Log" ボタンをクリックしてデータをログに追加します。
 
-bash
-Copy code
-python simulate_reactions.py
-Explore the generated data and insights for material development.
+"Save" ボタンをクリックしてログされたデータをCSVファイルに保存します。
 
-Contribution
-Contributions to this project are welcome! If you'd like to contribute:
+"Clear All Data" ボタンをクリックしてすべてのデータをクリアします。
 
-Fork the repository.
-Create a new branch for your feature: git checkout -b feature-name.
-Commit your changes: git commit -m 'Add new feature'.
-Push to the branch: git push origin feature-name.
-Submit a pull request.
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+アプリケーションを閉じるには、ウィンドウの閉じるボタンをクリックします。
 
-Contact
-For questions or feedback, please contact Your Name.
+#### 必要なライブラリ
+PySimpleGUI
+rdkit
+pubchempy
+csv
+pandas
+注意事項
+アプリケーションを使用する際には、必要なライブラリをインストールしてください。
+アプリケーションを閉じる前に、"Save" ボタンを使用してデータを保存してください。
+
+
+
+## ChemReacter
+
+ChemReacterは、化学データを基にエラスティックネットによる機械学習を行い、ベイズ最適化を使用してハイパーパラメータを調整するツールです。これにより、化学データに対するエラスティックネットモデルの最適なパフォーマンスを得ることができます。
+
+インストール
+このプロジェクトを実行するには、以下のライブラリが必要で
+pandas
+rdkit
+PySimpleGUI
+optuna
+これらのライブラリをインストールするためには、次のコマンドを実行してください。要に応じて追加の情報や注意事項を含めることもできます。
+
+pip install pandas rdkit PySimpleGUI optuna
+
+### 使用方法
+#### データの準備
+
+複数分子の混合組成、合成処方などを用意してください。
+また、それら処方に対応する目的変数データを用意してください。
+
+#### データの計算と最適化
+
+main.py スクリプトを実行して、ChemReacterツールを起動します。
+ウィンドウ内で、サンプルの名前と値を入力します。
+化学データと官能基情報を選択し、適切なフィード量を設定します。
+"Calculate" ボタンをクリックして、データの計算とエラスティックネットの学習を行います。
+ベイズ最適化によって最適なハイパーパラメータを調整し、学習モデルを作成します。
+結果の保存と可視化
+
+計算結果は CSV/products.csv に保存されます。このファイルには、サンプル名、値、官能基情報などが含まれます。
+また、エラスティックネットの結果やベイズ最適化の試行履歴はグラフとして可視化されます。
+
+注意事項
+ハイパーパラメータの最適化には時間がかかることがあります。適切な試行回数を設定して、ベイズ最適化の収束を待ちましょう。
+
+データの準備と計算には事前に化学データが必要です。適切なデータを用意してからスクリプトを実行してください。
+
+
+
+
+
+
