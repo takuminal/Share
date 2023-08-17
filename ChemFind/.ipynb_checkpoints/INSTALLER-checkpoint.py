@@ -4,6 +4,7 @@ import subprocess
 package_list = ['pubchempy',
                 'PySimpleGUI',
                 'rdkit',
+                'py3Dmol',
                 "sklearn",
                 "matplotlib",
                 "numpy",
