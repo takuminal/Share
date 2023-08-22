@@ -21,16 +21,19 @@ output_data = [properties+functional_g]
 
 #過去データの取得、またはデータテーブルの初期化
 try :
-    past_tag = pd.read_csv("CSV/output.csv")["Tag"].tolist()
+    #過去データの取得,DF化
+    material_df = pd.read_csv("CSV/materials.csv")
+    #Tagのみ
+    past_tag = material_df["Tag"].tolist()
 except:
-    with open("CSV/output.csv", 'w',newline="") as file:
+    with open("CSV/materials.csv", 'w',newline="") as file:
         writer = csv.writer(file)
         writer.writerow(output_data[0])
-    past_tag = pd.read_csv("CSV/output.csv")["Tag"].tolist()
+    past_tag = pd.read_csv("CSV/materials.csv")["Tag"].tolist()
 
 
 #全体のレイアウト
-layout = [[sg.Text('ChemFind', font=('Constantia',20))],
+layout = [[sg.Text('MATERIALS', font=('Constantia',20))],
           [sg.Frame("Main",[[sg.Text("Chemical Name or SMILES"),
                              sg.Input(size=(40, 1), key="-INPUT-"),
                              sg.Text("Tag"),
@@ -43,27 +46,39 @@ layout = [[sg.Text('ChemFind', font=('Constantia',20))],
                             [sg.Checkbox("Amine Protonize",key="Amine_H", default=False)], 
                             [sg.Button("Run",size=(10,1)),
                              sg.Button("Log",size=(10,1)),
+                             sg.Button("Delete",size=(10,1)),
                              sg.Push(),
                              sg.Button("Save",size=(10,1))],
                             [sg.Image(key="-IMAGE-")],
-                            
                             [sg.Push(),sg.Button("Clear All Data",size=(15,1))],
                             [sg.Text("",size=(60, 1),key = "NAME")],
                             [sg.Text("",size=(60, 1),key = "SMILES")],
                             [sg.Text("",size=(60, 1),key = "MW")],
-                            [sg.Text("",size=(60, 1),key = "LogP")]]), 
+                            [sg.Text("",size=(60, 1),key = "LogP")]]),
+           
            #MainFrameの終了 / 出力テーブルの開始
            sg.Column(layout =[[sg.Text("",size=(20,1),key=name),
                               sg.Text("", key=f"{name}_")] for name in functional_names]),
+           sg.Push(),
            sg.Table(headings =["Tag Name"],values = [[elem] for elem in past_tag],
                     key ="output_table",
                     size=(10,30))
            ]]
 
 
+# モニターの解像度を取得
+screen_width, screen_height = sg.Window.get_screen_size()
+
+# ウィンドウのサイズをモニターの全画面に設定
+window_size = (screen_width, screen_height)
+
 # ウインドウの出現位置を指定
 win_location = (0, 0)
-window = sg.Window("ChemFind", layout,resizable=True,location=win_location)
+window = sg.Window("PRODUCTS", 
+                   layout, 
+                   size=window_size,
+                   resizable=True,
+                   location=win_location)
 
 
 while True:
@@ -79,8 +94,7 @@ while True:
                 results = pcp.get_compounds(input_val, 'name')
                 compound = results[0]
                 smiles = compound.canonical_smiles
-                      
-    
+                          
             elif values['-2-'] == True:
                 
                 input_val = values["-INPUT-"]
@@ -97,8 +111,6 @@ while True:
     
             if values["Amine_H"] == True:
                 smiles = fc.amine_addHs(smiles)                
-    
-    
                       
             #smilesから官能基個数のカウントモジュール実行
             fg = fc.count_functional_groups(smiles)
@@ -135,18 +147,28 @@ while True:
             window["output_table"].update([[elem] for elem in past_tag2])
             
     if event == "Save":                  
-        with open("CSV/output.csv", mode="a", newline="") as file:
+        with open("CSV/materials.csv", mode="a", newline="") as file:
             writer = csv.writer(file)
             for row in output_data[1:]:
                 writer.writerow(row)
         window.close()
+        
+    if event == "Delete":
+        #出力リストの末尾を消す
+        if len(output_data)>1:
+            output_data.pop()
+            #過去Tagデータの更新
+            past_tag2 = past_tag + [f"** {row[0]}" for row in output_data][1:]
+            #Windowテーブルの更新
+            window["output_table"].update([[elem] for elem in past_tag2])
 
+    
     if event == "Clear All Data":
         output_data = [properties+functional_g]
-        with open("CSV/output.csv", 'w',newline="") as file:
+        with open("CSV/materials.csv", 'w',newline="") as file:
             writer = csv.writer(file)
             writer.writerow(output_data[0])
-        past_tag = pd.read_csv("CSV/output.csv")["Tag"].tolist()
+        past_tag = pd.read_csv("CSV/materials.csv")["Tag"].tolist()
         past_tag2 = past_tag + [row[0] for row in output_data][1:]
         window["output_table"].update([[elem] for elem in past_tag2])
 
