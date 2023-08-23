@@ -26,9 +26,12 @@ sg.theme("DarkBrown")
 
 layout = [[sg.Text('PRODUCTS', font=('Constantia',20))],
           [sg.Text("")],
-          [sg.Button("Calculate"),sg.Button("Delete")],
-          [sg.Text("Sample Name",size=(20, 1)), sg.Input(size=(20, 1),key = "sample_name" )],
-          [sg.Text("Value",size=(20, 1)), sg.Input(size=(20, 1),key = "val" )],
+          [sg.Button("Calculate"),
+           sg.Button("Delete"),
+           sg.Button("Plots"),
+           sg.Button("Elastic Net")],
+          [sg.Text("Sample Name",size=(15, 1)), sg.Input(size=(50, 1),key = "sample_name" )],
+          [sg.Text("Value",size=(15, 1)), sg.Input(size=(50, 1),key = "val" )],
           [sg.Text('_'  * 70)], #横線区切り
           [sg.Column(layout=[
                   [sg.Combo(materials, size=(20, 1), key=f'material_{n}'),
@@ -85,13 +88,13 @@ while True:
             #官能基情報の記録
             output[property] = [sum(calc_val)/sum(feed_sum)]
 
-        x = [elem.replace("(mmol/g)","") for elem in output.keys()][2:]
-        y = [elem[0] for elem in output.values()][2:]
+        functional_group = [elem.replace("(mmol/g)","") for elem in output.keys()][2:]
+        quantity = [elem[0] for elem in output.values()][2:]
         
         plt.close()
         fig = plt.figure(figsize=(8, 6)) 
-        plt.get_current_fig_manager().window.wm_geometry("+550+0")
-        plt.barh(x,y,color='gray')
+        plt.get_current_fig_manager().window.wm_geometry("+600+0")
+        plt.barh(functional_group,quantity,color='gray')
         plt.show(block=False)
         plt.title(output["Name"][0])
 
@@ -109,6 +112,39 @@ while True:
             window["output_table"].update([[elem] for elem in products_df["Name"].tolist()])
         except:
             pass
+
+    
+    if event == "Plots":
+            
+        num_rows = 4
+        num_cols = 5
+        
+        # ループで10個のサブプロットを生成して表示
+        fig, axes = plt.subplots(num_rows, num_cols, figsize=(12, 8))
+        
+        for ax, elem in zip(axes.flat,products_df.columns[2:]):
+            x = products_df[elem].tolist()
+            y = products_df["Object Val"].tolist()
+            ax.scatter(x, y, s=3, marker='o', color='blue')  # 仮のデータをプロット
+            ax.set_title(elem,fontsize=10)
+            ax.set_ylabel('Object Value',fontsize=10)
+        # サブプロット間のスペースを調整
+        plt.tight_layout()
+        plt.get_current_fig_manager().window.wm_geometry("+650+0")
+        plt.show(block=False)
+
+    
+    if event == "Elastic Net":
+        
+        y = products_df["Object Val"]
+        X = products_df.drop(columns=["Object Val","Name","logP"])
+        properties = [word.replace(" (mmol/g)","") for word in X.columns.to_list()]
+        
+        y_ = y.to_numpy().astype(float)
+        X_ = X.to_numpy().astype(float)
+        
+        from modules import bayes_EN as ben
+        ben.Elastic_Net(properties,X_,y_,0.8,100)
 
 products_df.to_csv("CSV/products.csv",index=False)
 window.close()

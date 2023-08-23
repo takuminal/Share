@@ -21,11 +21,15 @@ def Elastic_Net(properties,X,y,test_train_ratio,N_trial):
     from sklearn.model_selection import KFold
     from sklearn.model_selection import cross_val_score
 
-    alpha =0.1
-    rho =0.5
+    import random
+
+# 0から1未満のランダムな浮動小数点数を生成
+
+    alpha =random.random()
+    rho =random.random()
     
     
-    kfold = KFold(n_splits=5, shuffle=True, random_state=42) # 交差検証のためのk-foldオブジェクトを作成
+    kfold = KFold(n_splits=2, shuffle=True, random_state=42) # 交差検証のためのk-foldオブジェクトを作成
     model = ElasticNet(alpha=alpha, l1_ratio=rho, max_iter=10000)
     scores = cross_val_score(model, X, y, cv=kfold) # k-分割交差検証を実行し、モデルの性能を評価
 
@@ -108,6 +112,7 @@ def Elastic_Net(properties,X,y,test_train_ratio,N_trial):
     plt.ylabel("y_predict")
     plt.title("ElasticNet CrossVaridation")
     plt.grid(True)
+
     # テキストを表示
     text_x = np.min(y_test)  # テキストのx座標
     text_y = np.max(y_test)  # テキストのy座標
@@ -115,8 +120,6 @@ def Elastic_Net(properties,X,y,test_train_ratio,N_trial):
 
     text = f"Best Score: {elastic_net.score(X_test,y_test).round(2)}" # 表示するテキスト
     plt.text(text_x, text_y, text, fontsize=12, ha='left', va='top', color='k')
-
-
 
     # 2行目に2列のサブプロットを作成（右側）
     plt.subplot(2, 2, 4)  # (行数, 列数, サブプロット番号)
