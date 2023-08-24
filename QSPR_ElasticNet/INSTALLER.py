@@ -12,7 +12,7 @@ package_list = ["pubchempy",
                 "pandas"]
 
 subprocess.run(['pip', 'install'] + package_list + ['--trusted-host',
-                                                    'pypi.python.org,
+                                                    'pypi.python.org',
                                                     '--trusted-host',
                                                     'files.pythonhosted.org',
                                                     '--trusted-host',
