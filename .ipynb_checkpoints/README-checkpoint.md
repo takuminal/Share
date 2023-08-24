@@ -31,13 +31,6 @@ cd env\Scripts
 ~~~
 
 ~~~
-.\activate.bat
-~~~
-
-3.全て実行し終わると、新たなウィンドウが現れます。
-　そこで、下記コマンドをコピーペーストして、エンターキーを押し、実行してください。
-
-~~~
 pip install jupyterlab --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --trusted-host pypi.org
 ~~~
 
@@ -45,8 +38,11 @@ pip install jupyterlab --trusted-host pypi.python.org --trusted-host files.pytho
 実行すると、JupyterLabのインストールが開始します。完了するまで、暫く待機します。
 
 
-4.インストール完了したら、一度powershellを閉じます。
-
+4.インストール完了したら、
+~~~
+WARNING: The script ***.exe  is installed in 'C:\Users\H~~~~\AppData\Roaming\Python\Python311\Scripts
+~~~
+という出力の''でかこまれ
 
 #### JupyterLabの起動
 
