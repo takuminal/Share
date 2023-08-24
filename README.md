@@ -42,8 +42,11 @@ pip install jupyterlab --trusted-host pypi.python.org --trusted-host files.pytho
 ~~~
 WARNING: The script ***.exe  is installed in 'C:\Users\H~~~~\AppData\Roaming\Python\Python311\Scripts
 ~~~
-という出力の''でかこまれ
+という出力の　''　で囲まれた部分をコピーし、検索窓にペーストして、そのパスを開きます。  
+そこに、jupyter-lab.exeというファイルがあれば、そのファイル上で右クリックし、「ショートカットの作成」を行います。
+デスクトップ上にショートカットを作成し、そこからjupyter-labを実行できるようにします。
+
 
 #### JupyterLabの起動
 
-1.
+jupyter-labを実行し、起動します。
