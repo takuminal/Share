@@ -1,16 +1,23 @@
 import subprocess
 
 # パッケージのリストを指定してpip installを実行する
-package_list = ['pubchempy',
-                'PySimpleGUI',
-                'rdkit',
-                'py3Dmol',
-                "sklearn",
+package_list = ["pubchempy",
+                "PySimpleGUI",
+                "rdkit",
+                "scikit-learn",
                 "matplotlib",
                 "numpy",
                 "optuna",
-                "logging"]
-subprocess.run(['pip', 'install'] + package_list)
+                "logging",
+                "pandas"]
+
+subprocess.run(['pip', 'install'] + package_list + ['--trusted-host',
+                                                    'pypi.python.org,
+                                                    '--trusted-host',
+                                                    'files.pythonhosted.org',
+                                                    '--trusted-host',
+                                                    'pypi.org']
+                                                    )
 
 import pkg_resources
 
