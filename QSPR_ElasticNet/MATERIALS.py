@@ -5,7 +5,7 @@ import pubchempy as pcp
 import csv
 import pandas as pd
 
-sg.theme("DarkTeal11")
+sg.theme("DarkTeal10")
 
 
 #官能基カウントのモジュールを空で実行し、官能基リストを作成
@@ -38,12 +38,12 @@ layout = [[sg.Text('MATERIALS',20)],
                              sg.Input(size=(40, 1), 
                                       key="-INPUT-",
                                       text_color='black',
-                                      background_color='white'
+                                      background_color='honeydew'
                                      ),
                              sg.Text("タグ"),
                              sg.Input(size=(10, 1),key = "Tag" ,
                                       text_color='black',
-                                      background_color='white')],
+                                      background_color='honeydew')],
                             [sg.Radio('CAS or NAME',default=True, key="-1-", group_id='0'),
                              sg.Radio('SMILES',default=False, key="-2-", group_id='0')],
                             [sg.Text("化学反応")],
@@ -78,7 +78,7 @@ layout = [[sg.Text('MATERIALS',20)],
 screen_width, screen_height = sg.Window.get_screen_size()
 
 # ウィンドウのサイズをモニターの全画面に設定
-window_size = (screen_width, screen_height)
+window_size = (int(screen_width*4/5), screen_height)
 
 # ウインドウの出現位置を指定
 win_location = (0, 0)

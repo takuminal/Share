@@ -22,7 +22,7 @@ except:
     products_df = pd.DataFrame(columns=["Name","Object Val"]+properties)
 
 # GUIのレイアウト
-sg.theme("DarkTeal11")
+sg.theme("DarkTeal10")
 
 layout = [[sg.Text('PRODUCTS', font=('Constantia',20))],
           [sg.Text("")],
@@ -34,13 +34,13 @@ layout = [[sg.Text('PRODUCTS', font=('Constantia',20))],
            sg.Input(size=(50, 1),
                     key = "sample_name",
                     text_color='black',
-                    background_color='white'
+                    background_color='honeydew'
                    )],
           [sg.Text("特性値",size=(15, 1)), 
            sg.Input(size=(50, 1),
                     key = "val",
                     text_color='black',
-                    background_color='white'
+                    background_color='honeydew'
                    )],
           [sg.Text('_'  * 70)], #横線区切り
           [sg.Column(layout=[
@@ -50,13 +50,13 @@ layout = [[sg.Text('PRODUCTS', font=('Constantia',20))],
                             size=(20, 1),
                             key=f'material_{n}',
                             text_color='black',
-                            background_color='white'
+                            background_color='honeydew'
                               ),
                       sg.Input("0", 
                             size=(20, 1), 
                             key=f"feed_{n}",
                             text_color='black',
-                            background_color='white'
+                            background_color='honeydew'
                               )
                   ] for n in range(15)],
                      
