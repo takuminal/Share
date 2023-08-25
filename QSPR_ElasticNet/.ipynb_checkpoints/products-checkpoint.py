@@ -22,20 +22,44 @@ except:
     products_df = pd.DataFrame(columns=["Name","Object Val"]+properties)
 
 # GUIのレイアウト
-sg.theme("DarkBrown")
+sg.theme("DarkTeal11")
 
 layout = [[sg.Text('PRODUCTS', font=('Constantia',20))],
           [sg.Text("")],
-          [sg.Button("Calculate"),
-           sg.Button("Delete"),
-           sg.Button("Plots"),
+          [sg.Button("実行"),
+           sg.Button("削除"),
+           sg.Button("グラフ描画"),
            sg.Button("Elastic Net")],
-          [sg.Text("Sample Name",size=(15, 1)), sg.Input(size=(50, 1),key = "sample_name" )],
-          [sg.Text("Value",size=(15, 1)), sg.Input(size=(50, 1),key = "val" )],
+          [sg.Text("サンプル名",size=(15, 1)), 
+           sg.Input(size=(50, 1),
+                    key = "sample_name",
+                    text_color='black',
+                    background_color='white'
+                   )],
+          [sg.Text("特性値",size=(15, 1)), 
+           sg.Input(size=(50, 1),
+                    key = "val",
+                    text_color='black',
+                    background_color='white'
+                   )],
           [sg.Text('_'  * 70)], #横線区切り
           [sg.Column(layout=[
-                  [sg.Combo(materials, size=(20, 1), key=f'material_{n}'),
-                   sg.Input("0", size=(20, 1), key=f"feed_{n}")] for n in range(15)],
+              
+                  [
+                      sg.Combo(materials, 
+                            size=(20, 1),
+                            key=f'material_{n}',
+                            text_color='black',
+                            background_color='white'
+                              ),
+                      sg.Input("0", 
+                            size=(20, 1), 
+                            key=f"feed_{n}",
+                            text_color='black',
+                            background_color='white'
+                              )
+                  ] for n in range(15)],
+                     
               size=(400, 400)  # 列全体のサイズ
               ),
            sg.Table(headings =["Name"],values = [[elem] for elem in products_df["Name"].tolist()],
@@ -66,7 +90,7 @@ while True:
     if event == sg.WINDOW_CLOSED:
         break
         
-    if event == "Calculate":
+    if event == "実行":
 
         #出力用dict
         output={} 
@@ -106,7 +130,7 @@ while True:
         window["output_table"].update([[elem] for elem in products_df["Name"].tolist()])
 
     
-    if event == "Delete":
+    if event == "削除":
         try:
             products_df = products_df.drop(products_df.index[-1])
             window["output_table"].update([[elem] for elem in products_df["Name"].tolist()])
@@ -114,7 +138,7 @@ while True:
             pass
 
     
-    if event == "Plots":
+    if event == "グラフ描画":
             
         num_rows = 4
         num_cols = 5

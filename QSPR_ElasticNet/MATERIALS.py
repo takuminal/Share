@@ -5,7 +5,7 @@ import pubchempy as pcp
 import csv
 import pandas as pd
 
-sg.theme("DarkBrown")
+sg.theme("DarkTeal11")
 
 
 #官能基カウントのモジュールを空で実行し、官能基リストを作成
@@ -33,36 +33,44 @@ except:
 
 
 #全体のレイアウト
-layout = [[sg.Text('MATERIALS', font=('Constantia',20))],
-          [sg.Frame("Main",[[sg.Text("Chemical Name or SMILES"),
-                             sg.Input(size=(40, 1), key="-INPUT-"),
-                             sg.Text("Tag"),
-                             sg.Input(size=(10, 1),key = "Tag" )],
+layout = [[sg.Text('MATERIALS',20)],
+          [sg.Frame("Main",[[sg.Text("化合物名 / SMILES"),
+                             sg.Input(size=(40, 1), 
+                                      key="-INPUT-",
+                                      text_color='black',
+                                      background_color='white'
+                                     ),
+                             sg.Text("タグ"),
+                             sg.Input(size=(10, 1),key = "Tag" ,
+                                      text_color='black',
+                                      background_color='white')],
                             [sg.Radio('CAS or NAME',default=True, key="-1-", group_id='0'),
                              sg.Radio('SMILES',default=False, key="-2-", group_id='0')],
-                            [sg.Text("Reaction")],
-                            [sg.Checkbox("VinylPolymerize",key="polym", default=False)],
-                            [sg.Checkbox("Acid Deprotonize",key="Acid_DH", default=False)],
-                            [sg.Checkbox("Amine Protonize",key="Amine_H", default=False)], 
-                            [sg.Button("Run",size=(10,1)),
-                             sg.Button("Log",size=(10,1)),
-                             sg.Button("Delete",size=(10,1)),
+                            [sg.Text("化学反応")],
+                            [sg.Checkbox("ビニル重合",key="polym", default=False)],
+                            [sg.Checkbox("カルボン酸の脱プロトン化",key="Acid_DH", default=False)],
+                            [sg.Checkbox("アミンのプロトン化",key="Amine_H", default=False)], 
+                            [sg.Button("実行",size=(10,1)),
+                             sg.Button("記録",size=(10,1)),
+                             sg.Button("消去",size=(10,1)),
                              sg.Push(),
-                             sg.Button("Save",size=(10,1))],
+                             sg.Button("保存",size=(10,1))],
                             [sg.Image(key="-IMAGE-")],
-                            [sg.Push(),sg.Button("Clear All Data",size=(15,1))],
+
                             [sg.Text("",size=(60, 1),key = "NAME")],
                             [sg.Text("",size=(60, 1),key = "SMILES")],
                             [sg.Text("",size=(60, 1),key = "MW")],
-                            [sg.Text("",size=(60, 1),key = "LogP")]]),
+                            [sg.Text("",size=(60, 1),key = "LogP")],
+
+                            [sg.Push(),sg.Button("すべてのデータを消去",size=(30,1))]
+                           ]),
            
            #MainFrameの終了 / 出力テーブルの開始
            sg.Column(layout =[[sg.Text("",size=(20,1),key=name),
                               sg.Text("", key=f"{name}_")] for name in functional_names]),
-           sg.Push(),
-           sg.Table(headings =["Tag Name"],values = [[elem] for elem in past_tag],
+           sg.Table(headings =["   タグ   "],values = [[elem] for elem in past_tag],
                     key ="output_table",
-                    size=(10,30))
+                    size=(15,30))
            ]]
 
 
@@ -74,7 +82,7 @@ window_size = (screen_width, screen_height)
 
 # ウインドウの出現位置を指定
 win_location = (0, 0)
-window = sg.Window("PRODUCTS", 
+window = sg.Window("MATERIALS", 
                    layout, 
                    size=window_size,
                    resizable=True,
@@ -83,9 +91,9 @@ window = sg.Window("PRODUCTS",
 
 while True:
     event, values = window.read()
-    if event == sg.WINDOW_CLOSED or event == "Cancel":
+    if event == sg.WINDOW_CLOSED:
         break
-    if event == "Run":
+    if event == "実行":
         try:
                 
             if values['-1-'] == True:
@@ -130,7 +138,7 @@ while True:
 
     #output.csvの中身のTagリストを取得
 
-    if event == "Log":
+    if event == "記録":
         #追加データ行の作製
         tag = values["Tag"]
         chemical_name = values["-INPUT-"]
@@ -146,14 +154,14 @@ while True:
             #Windowテーブルの更新
             window["output_table"].update([[elem] for elem in past_tag2])
             
-    if event == "Save":                  
+    if event == "保存":                  
         with open("CSV/materials.csv", mode="a", newline="") as file:
             writer = csv.writer(file)
             for row in output_data[1:]:
                 writer.writerow(row)
         window.close()
         
-    if event == "Delete":
+    if event == "削除":
         #出力リストの末尾を消す
         if len(output_data)>1:
             output_data.pop()
@@ -163,7 +171,7 @@ while True:
             window["output_table"].update([[elem] for elem in past_tag2])
 
     
-    if event == "Clear All Data":
+    if event == "すべてのデータを消去":
         output_data = [properties+functional_g]
         with open("CSV/materials.csv", 'w',newline="") as file:
             writer = csv.writer(file)
