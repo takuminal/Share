@@ -2,7 +2,7 @@
 
 1.Windowsボタンから、スタートページを開き、右上の「すべてのアプリ」をクリックします。  
 2.一番下までスクロールして、「ポータルサイト」を選択します。  
-3.サインインしたら、「最近公開されたアプリ」の「Python」をクリックし、続けて「インストール」をクリックします。  
+3.サインインしたら、「最近公開されたアプリ」の「Python」をクリックし、続けて「インストール」をクリックします。    
 4.python-3.11.4-amd64のインストールが完了します。  
 
 
@@ -14,39 +14,36 @@
   　試しに、「 print("hello") 」や「1+1」と入力して動作を確認しましょう。  
 3.「ctrl + z」を押した後、Enterキーを押すとPythonの入力画面から出ることが出来ます。  
 
-
-#### Pythonの環境構築
-実際にコードを開発するためには、JupyterLabというアプリケーション(テキストエディタ)が必要です。  
-pip installによるjupyter-labのインストール方法を紹介します。  
-
-1.Windowsボタン横の検索窓から、「PowerShell」と検索し、エンターキーを押します。  
-2.青または黒い画面が現れたら、カーソルの位置を変えずに下記コードを実行しましょう。
+#### ダウンロード
+このページの上部「Code」をクリックし、「download zip」から、zipファイルをダウンロードします。  
+zipファイルを開き、share-mainの中にある、「QSPRE_ElasticNet」をフォルダごとコピーします。  
+任意の場所にフォルダをペーストし、フォルダの上で右クリックし、「パスのコピー」をクリックします。  
+powershellを開き、下記コマンドを実行。  
 
 ~~~
-python -m venv env
+cd コピーしたパスをペースト
 ~~~
 
-~~~
-cd env\Scripts
-~~~
+powershellで下記コマンドを実行。
 
 ~~~
-pip install jupyterlab --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --trusted-host pypi.org
+python installer.py
 ~~~
 
+無事完了したら、Welcomeのアスキーアートが表示されます。
 
-実行すると、JupyterLabのインストールが開始します。完了するまで、暫く待機します。
+続いて、materials.pyを実行します。下記コマンドを実行してください。
 
-
-4.インストール完了したら、下記コマンドを実行してください。
 ~~~
-cd C:\Users\H111111\AppData\Roaming\Python\Python311\Scripts\
+python materials.py
 ~~~
-という出力の　''　で囲まれた部分をコピーし、検索窓にペーストして、そのパスを開きます。  
-そこに、jupyter-lab.exeというファイルがあれば、そのファイル上で右クリックし、「ショートカットの作成」を行います。
-デスクトップ上にショートカットを作成し、そこからjupyter-labを実行できるようにします。
 
+×ボタンで閉じます。
 
-#### JupyterLabの起動
+同様に、products.pyを実行します。下記コマンドを実行してください。
 
-jupyter-labを実行し、起動します。
+~~~
+python products.py
+~~~
+
+×ボタンで閉じます。
