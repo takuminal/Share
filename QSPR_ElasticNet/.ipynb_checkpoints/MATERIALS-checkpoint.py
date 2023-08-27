@@ -33,7 +33,7 @@ except:
 
 
 #全体のレイアウト
-layout = [[sg.Text('MATERIALS', font=('Constantia',20))],
+layout = [[sg.Text('Materials', font=('Constantia',20,"bold"))],
           [sg.Frame("Main",[[sg.Text("化合物名 / SMILES"),
                              sg.Input(size=(40, 1), 
                                       key="-INPUT-",

@@ -24,7 +24,7 @@ except:
 # GUIのレイアウト
 sg.theme("DarkTeal10")
 
-layout = [[sg.Text('PRODUCTS', font=('Constantia',20))],
+layout = [[sg.Text('Products', font=('Constantia',20,"bold"))],
           [sg.Text("")],
           [sg.Button("実行"),
            sg.Button("削除"),
