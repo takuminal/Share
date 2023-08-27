@@ -1,5 +1,1 @@
 Tag,ChemicalName,SMILES,MW (g/mol),logP,carboxyl (mmol/g),carboxylate (mmol/g),hydroxyl (mmol/g),ether (mmol/g),ester (mmol/g),epoxy (mmol/g),amide (mmol/g),cyano (mmol/g),amine (mmol/g),ammonium (mmol/g),phenyl (mmol/g),methyl (mmol/g),methylene (mmol/g),methyne (mmol/g),quat_carbon (mmol/g),vinyl (mmol/g),asetylene (mmol/g),siloxane (mmol/g)
-MMA,methyl methacrylate,CC(=C)C(=O)OC,100.11699999999999,0.7355,0.0,0.0,0.0,0.0,9.988313673002589,0.0,0.0,0.0,0.0,0.0,0.0,19.976627346005177,0.0,0.0,0.0,9.988313673002589,0.0,0.0
-BMA,butyl methacrylate,CCCCOC(=O)C(=C)C,142.19799999999998,1.9058,0.0,0.0,0.0,0.0,7.0324477137512496,0.0,0.0,0.0,0.0,0.0,0.0,14.064895427502499,21.09734314125375,0.0,0.0,7.0324477137512496,0.0,0.0
-EMA,ethyl methacrylate,CCOC(=O)C(=C)C,114.14399999999999,1.1256000000000002,0.0,0.0,0.0,0.0,8.760863470703674,0.0,0.0,0.0,0.0,0.0,0.0,17.521726941407348,8.760863470703674,0.0,0.0,8.760863470703674,0.0,0.0
-AbA,abietic acid,CC(C)C1=CC2=CCC3C(C2CC1)(CCCC3(C)C(=O)O)C,302.4579999999999,5.206200000000004,3.3062441727446465,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,13.224976690978586,19.83746503646788,9.91873251823394,6.612488345489293,6.612488345489293,0.0,0.0

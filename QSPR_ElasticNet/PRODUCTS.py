@@ -43,6 +43,7 @@ layout = [[sg.Text('PRODUCTS', font=('Constantia',20))],
                     background_color='honeydew'
                    )],
           [sg.Text('_'  * 70)], #横線区切り
+          [sg.Text('原料品名',size=(20,1)),sg.Text('仕込み量',size=(20,1))],
           [sg.Column(layout=[
               
                   [
@@ -58,7 +59,7 @@ layout = [[sg.Text('PRODUCTS', font=('Constantia',20))],
                             text_color='black',
                             background_color='honeydew'
                               )
-                  ] for n in range(15)],
+                  ] for n in range(10)],
                      
               size=(400, 400)  # 列全体のサイズ
               ),
@@ -98,7 +99,7 @@ while True:
             calc_val = []
             feed_sum = []
             
-            for i in range(15):
+            for i in range(10):
                 material_name = values[f"material_{i}"]
                 if material_name != "":  #materialnameに入力されている場合のみデータ参照可能
                     feed = float(values[f"feed_{i}"])

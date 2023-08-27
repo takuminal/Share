@@ -33,7 +33,7 @@ except:
 
 
 #全体のレイアウト
-layout = [[sg.Text('MATERIALS',20)],
+layout = [[sg.Text('MATERIALS', font=('Constantia',20))],
           [sg.Frame("Main",[[sg.Text("化合物名 / SMILES"),
                              sg.Input(size=(40, 1), 
                                       key="-INPUT-",
@@ -52,7 +52,7 @@ layout = [[sg.Text('MATERIALS',20)],
                             [sg.Checkbox("アミンのプロトン化",key="Amine_H", default=False)], 
                             [sg.Button("実行",size=(10,1)),
                              sg.Button("記録",size=(10,1)),
-                             sg.Button("消去",size=(10,1)),
+                             sg.Button("削除",size=(10,1)),
                              sg.Push(),
                              sg.Button("保存",size=(10,1))],
                             [sg.Image(key="-IMAGE-")],
@@ -68,7 +68,7 @@ layout = [[sg.Text('MATERIALS',20)],
            #MainFrameの終了 / 出力テーブルの開始
            sg.Column(layout =[[sg.Text("",size=(20,1),key=name),
                               sg.Text("", key=f"{name}_")] for name in functional_names]),
-           sg.Table(headings =["   タグ   "],values = [[elem] for elem in past_tag],
+           sg.Table(headings =["　記録履歴　"],values = [[elem] for elem in past_tag],
                     key ="output_table",
                     size=(15,30))
            ]]
