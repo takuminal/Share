@@ -1,0 +1,5 @@
+Name,Object Val,MMA,EMA,BMA,IBMA,2EHMA
+sample1,1,100.0,,,,
+sample2,2,,100.0,,,
+sample3,,,,,100,
+sample4,,,,,,100
