@@ -1,2 +1,6 @@
-Name,Object Val,MMA
-sample1,1,100
+Name,Object Val,MMA,EMA,IBMA,2EHMA
+sample1,1,100.0,0.0,0.0,0
+sample2,2,0.0,100.0,0.0,0
+sample3,3,0.0,0.0,100.0,0
+sample4,6,0.0,0.0,0.0,0
+sample5,8,10,20,10,70
