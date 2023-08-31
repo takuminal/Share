@@ -16,7 +16,7 @@ properties = ["Tag","ChemicalName","SMILES","MW (g/mol)","logP"]
 #官能基名のリスト
 functional_g = [f"{name} (mmol/g)" for name in functional_names]
 #CSV出力用の２Dリスト
-output_data = [properties+functional_g]
+output_data = properties+functional_g
 
 
 #過去データの取得、またはデータテーブルの初期化
@@ -28,7 +28,7 @@ try :
 except:
     with open("CSV/materials.csv", 'w',newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(output_data[0])
+        writer.writerow([output_data])
     past_tag = pd.read_csv("CSV/materials.csv")["Tag"].tolist()
 
 
@@ -53,6 +53,7 @@ layout = [[sg.Text('Materials', font=('Constantia',20,"bold"))],
                             [sg.Button("実行",size=(10,1)),
                              sg.Button("記録",size=(10,1)),
                              sg.Button("削除",size=(10,1)),
+                             sg.Button("読込み",size=(10,1)),
                              sg.Push(),
                              sg.Button("保存",size=(10,1))],
                             [sg.Image(key="-IMAGE-")],
@@ -61,8 +62,6 @@ layout = [[sg.Text('Materials', font=('Constantia',20,"bold"))],
                             [sg.Text("",size=(60, 1),key = "SMILES")],
                             [sg.Text("",size=(60, 1),key = "MW")],
                             [sg.Text("",size=(60, 1),key = "LogP")],
-
-                            [sg.Push(),sg.Button("すべてのデータを消去",size=(30,1))]
                            ]),
            
            #MainFrameの終了 / 出力テーブルの開始
@@ -144,41 +143,36 @@ while True:
         chemical_name = values["-INPUT-"]
         new_row = [tag,chemical_name,smiles,fg.mw,fg.logP]+[1000*fg.count[name]/fg.mw for name in functional_names]
         #過去のTag名重複チェッカ－
-        past_tag2 = past_tag + [row[0] for row in output_data][1:]
+        past_tag2 = material_df["Tag"].to_numpy()
+        
         if tag in past_tag2:
             sg.popup("AlreadyExist",auto_close=True,auto_close_duration=1)
         else:
-            output_data.append(new_row)
+            new_row_df = pd.DataFrame([new_row],columns=output_data)
+            material_df = pd.concat([material_df,new_row_df])
             #過去Tagデータの更新
-            past_tag2 = past_tag + [f"** {row[0]}" for row in output_data][1:]
+            past_tag2 = material_df["Tag"].to_numpy()
             #Windowテーブルの更新
             window["output_table"].update([[elem] for elem in past_tag2])
             
     if event == "保存":                  
-        with open("CSV/materials.csv", mode="a", newline="") as file:
-            writer = csv.writer(file)
-            for row in output_data[1:]:
-                writer.writerow(row)
-        window.close()
+        material_df.to_csv("CSV/materials.csv",index=False)
+
         
     if event == "削除":
-        #出力リストの末尾を消す
-        if len(output_data)>1:
-            output_data.pop()
-            #過去Tagデータの更新
-            past_tag2 = past_tag + [f"** {row[0]}" for row in output_data][1:]
-            #Windowテーブルの更新
-            window["output_table"].update([[elem] for elem in past_tag2])
-
-    
-    if event == "すべてのデータを消去":
-        output_data = [properties+functional_g]
-        with open("CSV/materials.csv", 'w',newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(output_data[0])
-        past_tag = pd.read_csv("CSV/materials.csv")["Tag"].tolist()
-        past_tag2 = past_tag + [row[0] for row in output_data][1:]
+        delete_Tag = values["Tag"]
+        material_df = material_df[material_df["Tag"] != delete_Tag]
+        material_df = material_df[material_df["Tag"] != False ]
+        past_tag2 = material_df["Tag"].to_numpy()
         window["output_table"].update([[elem] for elem in past_tag2])
+
+    if event == "読込み":
+        Read_Name = values["Tag"]
+        target_row =material_df[material_df["Tag"] == Read_Name]
+        read_smiles = target_row["SMILES"].to_numpy()[0]
+        window["-INPUT-"].update(read_smiles)
+        window["-2-"].update(True)
+
 
 
 window.close()

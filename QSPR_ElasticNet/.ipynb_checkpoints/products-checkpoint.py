@@ -30,7 +30,7 @@ except:
 # GUIのレイアウト
 sg.theme("DarkBlack1")
 
-layout = [[sg.Text('PRODUCTS', font=('Constantia',20,"bold"))],
+layout = [[sg.Text('Products', font=('Constantia',20,"bold"))],
           [sg.Text("")],
           [sg.Button("実行",size = (11,1)),
            sg.Button("データ読込",size = (11,1)),
@@ -50,7 +50,7 @@ layout = [[sg.Text('PRODUCTS', font=('Constantia',20,"bold"))],
                     text_color='black',
                     background_color='honeydew'
                    )],
-          [sg.Text('_'  * 70)], #横線区切り
+          [sg.Text('_'  * 150)], #横線区切り
           [sg.Text('原料品名',size=(20,1)),sg.Text('仕込み量',size=(20,1))],
           [sg.Column(layout=[
               
