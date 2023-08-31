@@ -5,7 +5,7 @@ import pubchempy as pcp
 import csv
 import pandas as pd
 
-sg.theme("DarkTeal10")
+sg.theme("DarkBlack1")
 
 
 #官能基カウントのモジュールを空で実行し、官能基リストを作成

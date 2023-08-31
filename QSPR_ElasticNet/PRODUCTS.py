@@ -197,9 +197,11 @@ while True:
     
     if event == "削除":
         try:
-            #末尾のデータ消去
-            functional_df = functional_df.drop(functional_df.index[-1])
-            composition_df = composition_df.drop(composition_df.index[-1])
+            delete_sample = values["sample_name"] #検索値をdelete_sampleとして格納
+            composition_df = composition_df[composition_df["Name"] != delete_sample] #検索値と一致する行を削除
+            functional_df = functional_df[functional_df["Name"] != delete_sample] 
+
+            
             #削除によって空になったカラムは削除
             composition_df = composition_df.loc[:, (composition_df != 0).any(axis=0)]
             window["output_table"].update(composition_df.to_numpy().tolist())

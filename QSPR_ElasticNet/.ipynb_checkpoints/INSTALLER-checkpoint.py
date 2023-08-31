@@ -9,6 +9,7 @@ package_list = ["pubchempy",
                 "numpy",
                 "optuna",
                 "logging",
+                "py3Dmol",
                 "pandas"]
 
 subprocess.run(['pip', 'install'] + package_list + ['--trusted-host',
