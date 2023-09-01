@@ -10,19 +10,18 @@ import matplotlib
 
 matplotlib.use('TkAgg')
 
-df = pd.read_csv("CSV/materials.csv",index_col = "Tag")
+df = pd.read_csv("CSV/materials.csv",index_col = "Tag",encoding ="shift-jis")
 materials = df.index.tolist()
 properties = df.columns.tolist()[3:] #官能基の情報のみ
 
 
 #機械学習用データフレーム 
 try:
-    functional_df = pd.read_csv("CSV/functional_groups.csv")
-    composition_df = pd.read_csv("CSV/composition.csv")
-    
+    functional_df = pd.read_csv("CSV/functional_groups.csv",encoding ="shift-jis")
+    composition_df = pd.read_csv("CSV/composition.csv",encoding ="shift-jis")
 
 except:
-    funcional_df = pd.DataFrame(columns=["Name","Object Val"]+properties)
+    functional_df = pd.DataFrame(columns=["Name","Object Val"]+properties)
     composition_df = pd.DataFrame(columns=["Name","Object Val"])
 
     
@@ -35,8 +34,7 @@ layout = [[sg.Text('Products', font=('Constantia',20,"bold"))],
           [sg.Button("実行",size = (11,1)),
            sg.Button("データ読込",size = (11,1)),
            sg.Button("削除",size = (11,1)),
-           sg.Button("グラフ描画",size = (11,1)),
-           sg.Button("保存",size = (11,1))],
+           sg.Button("グラフ描画",size = (11,1))],
           [sg.Text(' '  * 70)], #横線区切り
           [sg.Text("サンプル名",size=(15, 1)), 
            sg.Input(size=(50, 1),
@@ -91,7 +89,7 @@ screen_width, screen_height = sg.Window.get_screen_size()
 # ウィンドウのサイズをモニターの半分に設定
 window_size = (screen_width,int(screen_height*0.9))
 
-window = sg.Window("PRODUCTS", 
+window = sg.Window("Polymers", 
                    layout, 
                    size=window_size,
                    resizable=True,
@@ -168,6 +166,10 @@ while True:
         #記録リストに記録
         window["output_table"].update(composition_df.to_numpy().tolist())
 
+        #CSVに保存
+        functional_df.to_csv("CSV/functional_groups.csv",index=False,encoding ="shift-jis")
+        composition_df.to_csv("CSV/composition.csv",index=False,encoding ="shift-jis")
+
 
     if event == "データ読込":
 
@@ -205,6 +207,10 @@ while True:
             #削除によって空になったカラムは削除
             composition_df = composition_df.loc[:, (composition_df != 0).any(axis=0)]
             window["output_table"].update(composition_df.to_numpy().tolist())
+
+            functional_df.to_csv("CSV/functional_groups.csv",index=False,encoding ="shift-jis")
+            composition_df.to_csv("CSV/composition.csv",index=False,encoding ="shift-jis")
+        
         except:
             pass
 
@@ -228,10 +234,6 @@ while True:
         plt.get_current_fig_manager().window.wm_geometry("+0+0")
         plt.show(block=False)
 
-
-    if event == "保存":
-        functional_df.to_csv("CSV/functional_groups.csv",index=False)
-        composition_df.to_csv("CSV/composition.csv",index=False)
 
 
 window.close()

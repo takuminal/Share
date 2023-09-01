@@ -1,6 +1,5 @@
-Name,Object Val,MMA,EMA,IBMA,2EHMA
-sample1,1,100.0,0.0,0.0,0
-sample2,2,0.0,100.0,0.0,0
-sample3,3,0.0,0.0,100.0,0
-sample4,6,0.0,0.0,0.0,0
-sample5,8,10,20,10,70
+Name,Object Val,2EHMA,IBXMA,MMA
+B,1,100,100,0
+C,1,100,100,0
+CR-21-1,2,10,20,70
+CR-23-1,6,30,20,50
