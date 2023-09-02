@@ -8,28 +8,61 @@ import PySimpleGUI as sg
 import matplotlib.pyplot as plt
 import matplotlib
 
-matplotlib.use('TkAgg')
 
-df = pd.read_csv("CSV/materials.csv",index_col = "Tag",encoding ="shift-jis")
-materials = df.index.tolist()
-properties = df.columns.tolist()[3:] #官能基の情報のみ
-
-
-#機械学習用データフレーム 
-try:
-    functional_df = pd.read_csv("CSV/functional_groups.csv",encoding ="shift-jis")
-    composition_df = pd.read_csv("CSV/composition.csv",encoding ="shift-jis")
-
-except:
-    functional_df = pd.DataFrame(columns=["Name","Object Val"]+properties)
-    composition_df = pd.DataFrame(columns=["Name","Object Val"])
-
+def composition_to_function(monomer_df, composition_df):
+        
+    column_list = composition_df.columns.tolist()
+    functional_group_df = pd.DataFrame(index = composition_df.index, 
+                                       columns=list(composition_df.columns)[:2] + list(monomer_df.columns)[3:])
     
+    #組成DFを1行ずつ処理
+    for i in list(composition_df.index):
+        #対象の1行を辞書型に変換
+        composition_dict = composition_df.loc[i].to_dict()
+    
+        temp=pd.DataFrame(index = [i],columns=monomer_df.columns).loc[i][3:]
+        temp.fillna(0, inplace=True)
+        
+        #モノマー組成がある3列目以降のkeyをリスト化してループ
+        for key in list(composition_dict.keys())[2:]:
+            #モノマーDFのindexにkeyを照合して合致したらvalue/100を乗じてdict
+            temp = monomer_df.loc[key][3:] * (composition_dict[key]/100) + temp
+    
+        #Seriesの情報をfunctional_group_dfに更新
+        functional_group_df.loc[i]=temp
+        functional_group_df.loc[i][:2]=composition_df.loc[i][:2]
+
+    return functional_group_df
+
+
+
+
+
+matplotlib.use('TkAgg')
+monomer_df = pd.read_csv("CSV/materials.csv",index_col = "Tag",encoding ="shift-jis")
+materials = monomer_df.index.tolist()
+properties = monomer_df.columns.tolist()[3:] #官能基の情報のみ
+
+
+#データフレーム 
+try:
+    composition_df = pd.read_csv("CSV/polymer_composition.csv",encoding ="shift-jis")
+    composition_df.fillna(0, inplace=True) #NaNの0フィル
+except:
+    composition_df = pd.DataFrame(columns=["Name","Y value"])
+    composition_df.fillna(0, inplace=True) #NaNの0フィル
+
+functional_df =  composition_to_function(monomer_df,composition_df)
+
+#df情報をCSVに保存
+functional_df.to_csv("CSV/polymer_functional_groups.csv",index=False,encoding ="shift-jis")
+composition_df.to_csv("CSV/polymer_composition.csv",index=False,encoding ="shift-jis")
+
 
 # GUIのレイアウト
 sg.theme("DarkBlack1")
 
-layout = [[sg.Text('Products', font=('Constantia',20,"bold"))],
+layout = [[sg.Text('Polymers', font=('Constantia',20,"bold"))],
           [sg.Text("")],
           [sg.Button("実行",size = (11,1)),
            sg.Button("データ読込",size = (11,1)),
@@ -106,69 +139,56 @@ while True:
     if event == "実行":
 
         #出力用dict
-        output={} 
         composition ={}
 
         #組成記録用dictにSample名を記録
         composition["Name"]= values["sample_name"]
-        composition["Object Val"]= values["val"]
+        composition["Y value"]= values["val"]
         
-        
-        for property in properties:
-            calc_val = []
-            feed_sum = []
+
+        for i in range(13):
+            material_name = values[f"material_{i}"]
             
-            for i in range(13):
-                material_name = values[f"material_{i}"]
-                if material_name != "":  #materialnameに入力されている場合のみデータ参照可能
-                    feed = float(values[f"feed_{i}"])
-                    calc_val.append(df.loc[material_name,property]*feed)
-                    feed_sum.append(feed)
+            #materialnameに入力されている場合のみデータ参照可能
+            if material_name != "":  
+                #compositionに組成情報を記録
+                composition[material_name]=float(values[f"feed_{i}"])
+            
+        #目的変数値の記録
+        composition["Name"] = str(values["sample_name"])
+        #目的変数値の記録
+        composition["Y value"] = values["val"]
 
-                    #compositionに組成情報を記録
-                    composition[material_name]=values[f"feed_{i}"]
-
-                
-                #目的変数値の記録
-                output["Name"] = str(values["sample_name"])
-                #目的変数値の記録
-                output["Object Val"] = values["val"]
-                #官能基情報の記録
-                output[property] = sum(calc_val)/sum(feed_sum)
-
-       
         new_name = values["sample_name"]
         #既存データの場合
-        if (new_name in functional_df["Name"].tolist()) and (new_name in composition_df["Name"].tolist()):
+        if new_name in composition_df["Name"].tolist():
             #読み取ったデータを該当の行に更新
-                #官能基
-            for key in output.keys():
-                functional_df.loc[functional_df["Name"] == new_name,key] = output[key]
-                
+            #行の初期化
+            for elem in list(composition_df.columns)[2:]:
+                composition_df.loc[composition_df["Name"] ==new_name,elem] =0
                 #組成
             for key in composition.keys():
                 composition_df.loc[composition_df["Name"] ==new_name,key] = composition[key]
 
+
         #新規データの場合
         else: 
             #データフレームに新しいデータ行を追加
-            new_row = pd.DataFrame([output])
             new_compositon_row = pd.DataFrame([composition])
             
-            #Newrowをfunctional_dfに結合、インデックスは振りなおす
-            functional_df = pd.concat([functional_df,new_row],ignore_index=True)            
-            composition_df=pd.concat([composition_df,new_compositon_row])
+            #Newrowをfunctional_dfに結合、インデックスは振りなおす         
+            composition_df=pd.concat([composition_df,new_compositon_row],ignore_index=True)
+        
 
         #各dfの欠損値の0フィリング
-        functional_df = functional_df.fillna(0)
         composition_df = composition_df.fillna(0)
-
+        functional_df = composition_to_function(monomer_df,composition_df)
         #記録リストに記録
         window["output_table"].update(composition_df.to_numpy().tolist())
 
         #CSVに保存
-        functional_df.to_csv("CSV/functional_groups.csv",index=False,encoding ="shift-jis")
-        composition_df.to_csv("CSV/composition.csv",index=False,encoding ="shift-jis")
+        functional_df.to_csv("CSV/polymer_functional_groups.csv",index=False,encoding ="shift-jis")
+        composition_df.to_csv("CSV/polymer_composition.csv",index=False,encoding ="shift-jis")
 
 
     if event == "データ読込":
@@ -180,7 +200,7 @@ while True:
         index_number = list(target_row_dict.keys())[0] #indexを数値として取得
         target_row_dict = target_row_dict[index_number] #dictの必要な部分のみ取り出して再代入
         
-        window["val"].update(target_row_dict["Object Val"])
+        window["val"].update(target_row_dict["Y value"])
 
         #GUIのインプットテーブルを初期化
         for i in range(13):
@@ -206,15 +226,15 @@ while True:
             
             #削除によって空になったカラムは削除
             composition_df = composition_df.loc[:, (composition_df != 0).any(axis=0)]
+            #記録リストに記録
             window["output_table"].update(composition_df.to_numpy().tolist())
 
-            functional_df.to_csv("CSV/functional_groups.csv",index=False,encoding ="shift-jis")
-            composition_df.to_csv("CSV/composition.csv",index=False,encoding ="shift-jis")
+            functional_df.to_csv("CSV/polymer_functional_groups.csv",index=False,encoding ="shift-jis")
+            composition_df.to_csv("CSV/polymer_composition.csv",index=False,encoding ="shift-jis")
         
         except:
             pass
 
-    
     if event == "グラフ描画":
             
         num_rows = 4
@@ -225,15 +245,14 @@ while True:
         
         for ax, elem in zip(axes.flat,functional_df.columns[2:]):
             x = functional_df[elem].tolist()
-            y = functional_df["Object Val"].tolist()
+            y = functional_df["Y value"].tolist()
             ax.scatter(x, y, s=3, marker='o', color='blue')  # 仮のデータをプロット
             ax.set_title(elem,fontsize=10)
-            ax.set_ylabel('Object Value',fontsize=10)
+            ax.set_ylabel('Y value',fontsize=10)
         # サブプロット間のスペースを調整
         plt.tight_layout()
         plt.get_current_fig_manager().window.wm_geometry("+0+0")
         plt.show(block=False)
-
 
 
 window.close()

@@ -9,7 +9,6 @@ package_list = ["pubchempy",
                 "numpy",
                 "optuna",
                 "logging",
-                "py3Dmol",
                 "pandas"]
 
 subprocess.run(['pip', 'install'] + package_list + ['--trusted-host',
@@ -42,15 +41,7 @@ for package_name in  package_list:
         checker = checker*False
 
 if checker ==True:
-    print("■■        ■■        ■")
-    print(" ■   ■■   ■         ■")
-    print(" ■   ■■   ■   ■■■   ■    ■■■■  ■■■■   ■■■■■■■■    ■■■")
-    print(" ■   ■■   ■  ■■  ■  ■   ■■    ■■  ■   ■   ■   ■  ■■  ■")
-    print(" ■■ ■■ ■  ■  ■   ■■ ■   ■     ■    ■  ■   ■   ■  ■   ■■")
-    print(" ■■ ■  ■ ■■  ■■■■■■ ■   ■     ■    ■  ■   ■   ■  ■■■■■■")
-    print("  ■ ■  ■ ■   ■      ■   ■     ■    ■  ■   ■   ■  ■     ")
-    print("  ■■    ■■   ■■     ■   ■■    ■■  ■   ■   ■   ■  ■■    ")
-    print("  ■■    ■■    ■■■■   ■   ■■■■  ■■■■   ■   ■   ■   ■■■■ ")
+    print("ALL PACKAGES ARE SUCCESFULLY INSTALLED (^_-)")
 import time
 # 5秒間待機
 time.sleep(10)
