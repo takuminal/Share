@@ -65,7 +65,7 @@ layout = [[sg.Text('Monomers', font=('Constantia',20,"bold"))],
            #MainFrameの終了 / 出力テーブルの開始
            sg.Column(layout =[[sg.Text("",size=(20,1),key=name),
                               sg.Text("", key=f"{name}_")] for name in functional_names]),
-           sg.Table(headings =["　記録履歴　"],values = [[elem] for elem in past_tag],
+           sg.Table(headings =["　Tag　"],values = [[elem] for elem in past_tag],
                     key ="output_table",
                     size=(15,30))
            ]]
