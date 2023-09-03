@@ -39,7 +39,7 @@ def composition_to_function(monomer_df, composition_df):
 
 
 matplotlib.use('TkAgg')
-monomer_df = pd.read_csv("CSV/materials.csv",index_col = "Tag",encoding ="shift-jis")
+monomer_df = pd.read_csv("CSV/monomers.csv",index_col = "Tag",encoding ="shift-jis")
 materials = monomer_df.index.tolist()
 properties = monomer_df.columns.tolist()[3:] #官能基の情報のみ
 

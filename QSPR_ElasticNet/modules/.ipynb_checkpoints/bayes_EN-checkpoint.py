@@ -102,7 +102,6 @@ def Elastic_Net(properties,X,y,test_train_ratio,N_trial):
 
     plt.bar(properties,EN_coef,color ="lightblue")
 
-
     plt.subplot(2, 2, 3)
     # サブプロット1のプロット
     plt.scatter(y_test,y_pred,color="gray")

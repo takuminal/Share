@@ -22,14 +22,14 @@ output_data = properties+functional_g
 #過去データの取得、またはデータテーブルの初期化
 try :
     #過去データの取得,DF化
-    material_df = pd.read_csv("CSV/materials.csv",encoding = "shift-jis")
+    material_df = pd.read_csv("CSV/monomers.csv",encoding = "shift-jis")
     #Tagのみ
     past_tag = material_df["Tag"].tolist()
 except:
-    with open("CSV/materials.csv", 'w',newline="") as file:
+    with open("CSV/monomers.csv", 'w',newline="") as file:
         writer = csv.writer(file)
         writer.writerow([output_data])
-    past_tag = pd.read_csv("CSV/materials.csv")["Tag"].tolist()
+    past_tag = pd.read_csv("CSV/monomers.csv")["Tag"].tolist()
 
 
 #全体のレイアウト
@@ -153,7 +153,7 @@ while True:
                 past_tag2 = material_df["Tag"].to_numpy()
                 #Windowテーブルの更新
                 window["output_table"].update([[elem] for elem in past_tag2])
-                material_df.to_csv("CSV/materials.csv",index=False,encoding ="shift-jis")
+                material_df.to_csv("CSV/monomers.csv",index=False,encoding ="shift-jis")
         
         except:
             pass
@@ -166,7 +166,7 @@ while True:
             material_df = material_df[material_df["Tag"] != False ]
             past_tag2 = material_df["Tag"].to_numpy()
             window["output_table"].update([[elem] for elem in past_tag2])
-            material_df.to_csv("CSV/materials.csv",index=False,encoding ="shift-jis")
+            material_df.to_csv("CSV/monomers.csv",index=False,encoding ="shift-jis")
 
     if event == "読込み":
         Read_Name = values["Tag"]
