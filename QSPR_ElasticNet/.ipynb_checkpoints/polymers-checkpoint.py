@@ -19,6 +19,7 @@ def composition_to_function(monomer_df, composition_df):
     for i in list(composition_df.index):
         #対象の1行を辞書型に変換
         composition_dict = composition_df.loc[i].to_dict()
+        composition_sum = sum(list(composition_dict.values())[2:])
     
         temp=pd.DataFrame(index = [i],columns=monomer_df.columns).loc[i][3:]
         temp.fillna(0, inplace=True)
@@ -26,7 +27,7 @@ def composition_to_function(monomer_df, composition_df):
         #モノマー組成がある3列目以降のkeyをリスト化してループ
         for key in list(composition_dict.keys())[2:]:
             #モノマーDFのindexにkeyを照合して合致したらvalue/100を乗じてdict
-            temp = monomer_df.loc[key][3:] * (composition_dict[key]/100) + temp
+            temp = monomer_df.loc[key][3:] * (composition_dict[key]/composition_sum) + temp
     
         #Seriesの情報をfunctional_group_dfに更新
         functional_group_df.loc[i]=temp
