@@ -104,8 +104,7 @@ while True:
                 
                 input_val = values["-INPUT-"]
                 smiles = input_val
-                results = pcp.get_compounds(smiles, 'smiles')
-                compound = results[0]
+
     
             #化学反応
             
