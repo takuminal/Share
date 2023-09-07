@@ -7,6 +7,7 @@ import os
 import PySimpleGUI as sg
 import matplotlib.pyplot as plt
 import matplotlib
+import seaborn as sns
 
 
 def composition_to_function(monomer_df, composition_df):
@@ -257,3 +258,4 @@ while True:
 
 
 window.close()
+
