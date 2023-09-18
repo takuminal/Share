@@ -1,6 +1,6 @@
 
 class Krevelen_sp:
-    def __init__(self,smiles="C"):
+    def __init__(self,smiles="C",mol_vol=None):
         import numpy as np
         from rdkit import Chem
         from rdkit.Chem import Descriptors
@@ -71,13 +71,24 @@ class Krevelen_sp:
         def mol_volume(smiles):
             from rdkit import Chem
             from rdkit.Chem import AllChem
+            import numpy as np 
+            
+            mol_vol = []
             mol = Chem.AddHs(Chem.MolFromSmiles(smiles))
-            AllChem.EmbedMolecule(mol)
-            mol_vol = AllChem.ComputeMolVolume(mol)
-            return mol_vol
+            
+            for i in range(10):   
+                conformer_id =AllChem.EmbedMolecule(mol)
+                #conformeridが0ならば、リストに追加
+                if conformer_id == 0:
+                    mol_vol.append(AllChem.ComputeMolVolume(mol))
+                else:
+                    pass
         
-              
-        MolVolume = mol_volume(smiles)
+            result = np.mean(mol_vol)
+            return result
+            
+        if mol_vol is None:
+            mol_vol = mol_volume(smiles)
         
         #各deltaパラメータの算出
         
@@ -93,15 +104,15 @@ class Krevelen_sp:
                       for elem in list(Count.keys())])
         ar_sum = ar.sum(axis = 0)
         
-        delta_d = ar_sum[0]/MolVolume
-        delta_p = (ar_sum[1])**(0.5)/MolVolume
-        delta_h = (ar_sum[2]/MolVolume)**0.5
+        delta_d = ar_sum[0]/mol_vol
+        delta_p = (ar_sum[1])**(0.5)/mol_vol
+        delta_h = (ar_sum[2]/mol_vol)**0.5
         delta_total = (delta_d**2 + delta_p**2 + delta_h**2)**0.5
 
 
         #アトリビュートの定義
         self.mw = Descriptors.MolWt(mol)
-        self.vol = MolVolume
+        self.vol = mol_vol
         self.contribute = Contribute
         self.count = Count 
         self.results =  {"delta_d":delta_d, "delta_p":delta_p, "delta_h":delta_h, "delta_total":delta_total}
@@ -132,5 +143,24 @@ def scatter3d(x,y,z,tag=None):
         
     plt.show()
 
-    
+def sp_distance_map(x,y,z,tag):
+        import numpy as np
+        
+        x1,x2 = np.meshgrid(x,x.T)
+        delta_d = (x1-x2)**2
+        y1,y2 = np.meshgrid(y,y.T)
+        delta_p = (y1-y2)**2
+        z1,z2 = np.meshgrid(z,z.T)
+        delta_h = (z1-z2)**2
+        
+        distance = np.add(delta_d,delta_p)
+        distance = np.add(delta_h,distance)
+        distance = distance**0.5
+        
+        import seaborn as sns
+        import matplotlib.pyplot as plt# ヒートマップを作成
+        sns.heatmap(distance, annot=False, cmap="coolwarm",xticklabels=tag, yticklabels=tag)
+        # プロットを表示
+        plt.show()
+
     

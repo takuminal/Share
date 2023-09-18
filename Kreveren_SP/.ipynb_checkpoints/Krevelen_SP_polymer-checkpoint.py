@@ -10,7 +10,7 @@ sg.theme("DarkBlack1")
 
 
 #記述子名のリスト
-properties = ["Tag","MW","MolVolume","delta_d","delta_p","delta_h","sp"]
+properties = ["Tag","MW","Density","MolVolume","delta_d","delta_p","delta_h","sp"]
 columns_name = properties
 
 #過去データの取得、またはデータテーブルの初期化
@@ -33,16 +33,9 @@ layout = [[sg.Text('Krevelen SP', font=('Constantia',20,"bold"))],
           [sg.Frame("Main",[[sg.Text("タグ",size=(10, 1)),
                              sg.Input(size=(40, 1),key = "Tag" ,
                                       text_color='black',
-                                      background_color='honeydew')],
-                            [sg.Text("重合度",size=(10, 1)),
-                             sg.Input(size=(10, 1),
-                                      key = "dp" ,
-                                      text_color='black',
-                                      background_color='honeydew')],
-                             
+                                      background_color='honeydew')],      
                             [sg.Button("実行",size=(10,1)),
                              sg.Button("記録",size=(10,1)),
-                             sg.Button("読込み",size=(10,1)),
                              sg.Button("削除",size=(10,1)),
                              sg.Button("SP空間",size=(10,1)),
                             ],
@@ -68,6 +61,8 @@ layout = [[sg.Text('Krevelen SP', font=('Constantia',20,"bold"))],
                                   )],
                             [sg.Text("MW (g/mol)",size=(10, 1)),
                              sg.Text("",size=(60, 1),key = "MW")],
+                            [sg.Text("density(g/cm3)",size=(10, 1)),
+                             sg.Text("",size=(60, 1),key = "dens")],
                             [sg.Text("MolVolume",size=(10, 1)),
                              sg.Text("",size=(60, 1),key = "MolVolume")],
                             [sg.Text("delta_d",size=(10, 1)),
@@ -110,67 +105,66 @@ while True:
     if event == sg.WINDOW_CLOSED:
         break
     if event == "実行":
-        try:       
-            #出力用dict
-            composition ={}
-    
-            #組成記録用dictにSample名を記録
-            composition["Name"]= values["Tag"]
-            
-            for i in range(10):
-                material_name = values[f"material_{i}"]
-                
-                #materialnameに入力されている場合のみデータ参照可能
-                if material_name != "":  
-                    #compositionに組成情報を記録
-                    composition[material_name]=float(values[f"feed_{i}"])
-    
-            #組成モノマー名のリストをforでループし、monomer_dfからSMILESを取得
-            feed_monomers =[]
-            for monomer_name in list(composition.keys())[1:]:
-                id = monomer_df.loc[monomer_df["Tag"]==monomer_name].index[0]
-                smiles = monomer_df.loc[id]["SMILES"]
-                feed_monomers = [smiles]*int(composition[monomer_name]) + feed_monomers   
-            
-            #重合度を取り出し
-            dp = int(values["dp"])
-            
-            #モノマーを重合する関数を呼び出し
-            from modules import reactions as rx
-            polymers =  rx.Polymerization(feed_monomers,dp)
-            
-            #重合生成フラグメントをそれぞれVanKrevelen法のSP計算実行
-            from modules import function
-            
-            params_ls = []
-            for polymer in polymers:
-                try:
-                    params = function.Krevelen_sp(polymer)
-                except:
-                    sg.popup("分子が大きすぎます")
-                    break
-                params_ls.append([
-                                params.mw, 
-                                params.vol, 
-                                params.results["delta_d"],
-                                params.results["delta_p"],
-                                params.results["delta_h"],
-                                params.results["delta_total"],
-                ])
 
-            params_arr = np.array(params_ls)
-            mw , vol , delta_d , delta_p , delta_h , sp = params_arr.mean(axis=0)
+        #出力用dict
+        composition ={}
+        
+        for i in range(10):
+            material_name = values[f"material_{i}"]
+            
+            #materialnameに入力されている場合のみデータ参照可能
+            if material_name != "":  
+                #compositionに組成情報を記録
+                composition[material_name]=int(values[f"feed_{i}"])
 
-            #各パラメータの更新
-            window["MW"].update(f"{mw}")
-            window["MolVolume"].update(f"{vol}")
-            window["delta_d"].update(f"{delta_d}")
-            window["delta_p"].update(f"{delta_p}")
-            window["delta_h"].update(f"{delta_h}")
-            window["sp"].update(f"{sp}")
+        
+        #組成モノマー名のリストをforでループし、monomer_dfからSMILESを取得
 
-        except:
-            pass
+        #ポリマー分子体積はモノマーの分子体積の和として近似
+        #モノマー1mol当たり12cmの体積収縮を加味するが、結合数はモノマー数-1なので初期値12として補正する
+        polymer_vol = 13.5
+        feed_monomers =[]
+        for monomer_name in list(composition.keys()):
+            id = monomer_df.loc[monomer_df["Tag"]==monomer_name].index[0]
+            smiles = monomer_df.loc[id]["SMILES"]
+            vol = monomer_df.loc[id]["MolVolume"]
+            feed_monomers = [smiles]*int(composition[monomer_name]) + feed_monomers
+            #モノマー1mol当たり12cmの体積収縮を加味する
+            polymer_vol = (vol-13.5)*int(composition[monomer_name]) + polymer_vol
+
+        result = "".join(feed_monomers)
+        if len(result) > 4000:
+            sg.popup("仕込み量が多すぎます")
+            break
+            
+
+        
+        #モノマーを重合する関数を呼び出し
+        from modules import reactions as rx
+        polymer =  rx.Polymerization(feed_monomers)
+        
+        #重合生成フラグメントをそれぞれVanKrevelen法のSP計算実行
+        from modules import function
+        
+
+        params = function.Krevelen_sp(polymer,polymer_vol)
+        mw = params.mw
+        vol = params.vol 
+        dens = mw/vol
+        delta_d = params.results["delta_d"]
+        delta_p = params.results["delta_p"] 
+        delta_h = params.results["delta_h"]
+        sp =  params.results["delta_total"]
+
+        #各パラメータの更新
+        window["MW"].update(f"{mw}")
+        window["dens"].update(f"{dens}")
+        window["MolVolume"].update(f"{vol}")
+        window["delta_d"].update(f"{delta_d}")
+        window["delta_p"].update(f"{delta_p}")
+        window["delta_h"].update(f"{delta_h}")
+        window["sp"].update(f"{sp}")
+
             
     if event == "記録":
 
@@ -179,7 +173,7 @@ while True:
             tag = values["Tag"] #TagがあるときはTag名に
         else:
             tag = "None"
-        new_row = [tag, mw,vol,delta_d,delta_p,delta_h,sp]
+        new_row = [tag, mw,dens,vol,delta_d,delta_p,delta_h,sp]
         new_row_df = pd.DataFrame([new_row],columns = columns_name)
 
 
@@ -209,33 +203,6 @@ while True:
             window["output_table"].update(polymer_df.to_numpy().tolist())
             polymer_df.to_csv("CSV/kreveren_sp_polymer.csv",index=False,encoding ="shift-jis")
 
-    if event == "読込み":
-        Read_Name = values["Tag"]
-        if Read_Name in polymer_df["Tag"].to_list():        
-            target_row =polymer_df[polymer_df["Tag"] == Read_Name]
-            smiles = target_row["SMILES"].to_numpy()[0]
-            window["-INPUT-"].update(smiles)
-            window["-2-"].update(True)
-            
-            #画像の更新
-            fn.save_img(smiles)
-            #smilesからsp推算クラス実行
-            ksp= fn.Krevelen_sp(smiles)
-            mw = ksp.mw
-            vol = ksp.vol
-            delta_d = ksp.results['delta_d']
-            delta_p = ksp.results['delta_p']
-            delta_h = ksp.results['delta_h']
-            sp = ksp.results['delta_total']
-            
-            #各パラメータの更新
-            window["SMILES"].update(f"{smiles}")
-            window["MW"].update(f"{mw}")
-            window["MolVolume"].update(f"{vol}")
-            window["delta_d"].update(f"{delta_d}")
-            window["delta_p"].update(f"{delta_p}")
-            window["delta_h"].update(f"{delta_h}")
-            window["sp"].update(f"{sp}")
             
     if event == "SP空間":
         

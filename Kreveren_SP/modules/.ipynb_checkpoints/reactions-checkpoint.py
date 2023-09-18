@@ -1,6 +1,6 @@
 
 
-def Polymerization(monomers_smiles_list,dp):
+def Polymerization(monomers_smiles_list):
 
     
     def Initiation(monomer):
@@ -53,31 +53,13 @@ def Polymerization(monomers_smiles_list,dp):
     initial_monomer = feed_monomers[0]
     other_monomers = feed_monomers[1:]
 
-    
-    polymers = []
-    #最初のモノマーで開始反応
     radical = Initiation(initial_monomer)
-    i = 1
-    for monomer in other_monomers:
-        #SMILESが大きくなりすぎると、分子のコンホメーションが収束しない為、数量体程度にする。
-        if i >= dp:
-            polymers.append(Termination(radical))
-            radical = Initiation(monomer)
-            i = 0
-        else:
-            radical = Propagation(radical,monomer)
-            i = i + 1
-            
     
-    polymers.append(Termination(radical))
+    for monomer in other_monomers:
+        radical = Propagation(radical,monomer)
+    polymers = Termination(radical)
 
     return polymers
-
-
-
-
-
-
 
 def polym(monomer):
     from rdkit import Chem
