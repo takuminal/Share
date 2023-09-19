@@ -75,8 +75,9 @@ class Krevelen_sp:
             
             mol_vol = []
             mol = Chem.AddHs(Chem.MolFromSmiles(smiles))
-            
-            for i in range(10):   
+
+            #最大5つのコンホメーションを生成し、モル体積を計算後、平均をとる。
+            for i in range(3):   
                 conformer_id =AllChem.EmbedMolecule(mol)
                 #conformeridが0ならば、リストに追加
                 if conformer_id == 0:
@@ -125,16 +126,23 @@ def save_img(smiles):
     mol_im.save("images/mol_structure.png")
 
 
-def scatter3d(x,y,z,tag=None):
+def scatter3d(x,y,z,param,tag=None):
     
     import matplotlib.pyplot as plt
-    fig = plt.figure(figsize = (10,10))
+    fig = plt.figure(figsize = (15,15))
     ax = fig.add_subplot(projection='3d')
     ax.set_xlabel('delta_d')
     ax.set_ylabel('delta_p')
     ax.set_zlabel('delta_h')
-    
-    ax.scatter(x,y,z)
+
+    volume = 50
+    close = 0.1
+    sc = ax.scatter(x,y,z,c=param, s=volume, alpha=1,cmap="coolwarm")
+
+    ax.grid(True)
+    # Add a colorbar
+    colorbar = plt.colorbar(sc,shrink=0.5)
+    colorbar.set_label("parameter")
     
     #データラベルの追加
     if tag is not None:

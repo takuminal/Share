@@ -189,6 +189,7 @@ while True:
             ksp= fc.Krevelen_sp(smiles)
             mw = ksp.mw
             vol = ksp.vol
+            dens = ksp.mw/ksp.vol
             delta_d = ksp.results['delta_d']
             delta_p = ksp.results['delta_p']
             delta_h = ksp.results['delta_h']

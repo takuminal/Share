@@ -10,7 +10,7 @@ sg.theme("DarkBlack1")
 
 
 #記述子名のリスト
-properties = ["Tag","MW","Density","MolVolume","delta_d","delta_p","delta_h","sp"]
+properties = ["Tag","MW","Density","MolVolume","delta_d","delta_p","delta_h","Parameter"]
 columns_name = properties
 
 #過去データの取得、またはデータテーブルの初期化
@@ -59,21 +59,25 @@ layout = [[sg.Text('Krevelen SP', font=('Constantia',20,"bold"))],
                                          
                                   size=(400, 280)  # 列全体のサイズ
                                   )],
-                            [sg.Text("MW (g/mol)",size=(10, 1)),
+                            [sg.Text("Parameter",size=(20, 1)),
+                             sg.Input(0,
+                                      size=(20, 1),
+                                      key = "parameter",
+                                      text_color='black',
+                                      background_color='honeydew'
+                                     )],
+                            [sg.Text("MW (g/mol)",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "MW")],
-                            [sg.Text("density(g/cm3)",size=(10, 1)),
+                            [sg.Text("density(g/cm3)",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "dens")],
-                            [sg.Text("MolVolume",size=(10, 1)),
+                            [sg.Text("MolVolume",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "MolVolume")],
-                            [sg.Text("delta_d",size=(10, 1)),
+                            [sg.Text("delta_d",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "delta_d")],
-                            [sg.Text("delta_p",size=(10, 1)),
+                            [sg.Text("delta_p",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "delta_p")],
-                            [sg.Text("delta_h",size=(10, 1)),
-                             sg.Text("",size=(60, 1),key = "delta_h")],
-                            [sg.Text("sp",size=(10, 1)),
-                             sg.Text("",size=(60, 1),key = "sp")],
-                            
+                            [sg.Text("delta_h",size=(20, 1)),
+                             sg.Text("",size=(60, 1),key = "delta_h")],   
                            ]),
            sg.Frame("記録データ表",
                     [[sg.Table(headings=polymer_df.columns.to_list(),
@@ -117,20 +121,24 @@ while True:
                 #compositionに組成情報を記録
                 composition[material_name]=int(values[f"feed_{i}"])
 
-        
         #組成モノマー名のリストをforでループし、monomer_dfからSMILESを取得
-
         #ポリマー分子体積はモノマーの分子体積の和として近似
         #モノマー1mol当たり12cmの体積収縮を加味するが、結合数はモノマー数-1なので初期値12として補正する
         polymer_vol = 13.5
         feed_monomers =[]
+        
         for monomer_name in list(composition.keys()):
             id = monomer_df.loc[monomer_df["Tag"]==monomer_name].index[0]
+            #仕込み重量wtを、分子量mwで割り、化学等量eqに変換
+            mw = monomer_df.loc[id]["MW"]
+            wt = composition[monomer_name]
+            eq = int(wt*100/mw)
             smiles = monomer_df.loc[id]["SMILES"]
             vol = monomer_df.loc[id]["MolVolume"]
-            feed_monomers = [smiles]*int(composition[monomer_name]) + feed_monomers
+            
+            feed_monomers = [smiles]*eq + feed_monomers
             #モノマー1mol当たり12cmの体積収縮を加味する
-            polymer_vol = (vol-13.5)*int(composition[monomer_name]) + polymer_vol
+            polymer_vol = (vol-13.5)*eq + polymer_vol
 
         result = "".join(feed_monomers)
         if len(result) > 4000:
@@ -154,7 +162,7 @@ while True:
         delta_d = params.results["delta_d"]
         delta_p = params.results["delta_p"] 
         delta_h = params.results["delta_h"]
-        sp =  params.results["delta_total"]
+        parameter = values["parameter"]
 
         #各パラメータの更新
         window["MW"].update(f"{mw}")
@@ -163,7 +171,7 @@ while True:
         window["delta_d"].update(f"{delta_d}")
         window["delta_p"].update(f"{delta_p}")
         window["delta_h"].update(f"{delta_h}")
-        window["sp"].update(f"{sp}")
+
 
             
     if event == "記録":
@@ -173,7 +181,10 @@ while True:
             tag = values["Tag"] #TagがあるときはTag名に
         else:
             tag = "None"
-        new_row = [tag, mw,dens,vol,delta_d,delta_p,delta_h,sp]
+
+        #Parameterの更新
+        parameter = values["parameter"]
+        new_row = [tag, mw,dens,vol,delta_d,delta_p,delta_h,parameter]
         new_row_df = pd.DataFrame([new_row],columns = columns_name)
 
 
@@ -207,11 +218,14 @@ while True:
     if event == "SP空間":
         
         tag = polymer_df["Tag"].tolist()
+        check = True
         x = polymer_df["delta_d"].tolist()
         y = polymer_df["delta_p"].tolist()
         z = polymer_df["delta_h"].tolist()
+        p = polymer_df["Parameter"].tolist()
+        
 
         
-        fc.scatter3d(x,y,z,tag)
+        fc.scatter3d(x,y,z,p,tag)
     
 window.close()
