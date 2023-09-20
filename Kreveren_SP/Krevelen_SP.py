@@ -9,7 +9,7 @@ sg.theme("DarkBlack1")
 
 
 #記述子名のリスト
-properties = ["Tag","SMILES","MW","Density","MolVolume","delta_d","delta_p","delta_h","sp"]
+properties = ["Tag","SMILES","MW","Density","MolVolume","delta_d","delta_p","delta_h","Parameter"]
 columns_name = properties
 
 #過去データの取得、またはデータテーブルの初期化
@@ -45,22 +45,29 @@ layout = [[sg.Text('Krevelen SP', font=('Constantia',20,"bold"))],
                              sg.Button("SP空間散布図",size=(22,1))],
                             [sg.Text("")],
                             [sg.Image("images/mol_structure.png",key="-IMAGE-")],
-                            [sg.Text("SMILES",size=(15, 1)),
+
+                            [sg.Text("Parameter",size=(20, 1)),
+                             sg.Input("0",
+                                      size=(20, 1),
+                                      key = "parameter",
+                                      text_color='black',
+                                      background_color='honeydew'
+                                     )],
+                            
+                            [sg.Text("SMILES",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "SMILES")],
-                            [sg.Text("MW (g/mol)",size=(15, 1)),
+                            [sg.Text("MW (g/mol)",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "MW")],
-                            [sg.Text("Density (g/cm3)",size=(15, 1)),
+                            [sg.Text("Density (g/cm3)",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "dens")],
-                            [sg.Text("MolVolume",size=(10, 1)),
+                            [sg.Text("MolVolume",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "MolVolume")],
-                            [sg.Text("delta_d",size=(10, 1)),
+                            [sg.Text("delta_d",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "delta_d")],
-                            [sg.Text("delta_p",size=(10, 1)),
+                            [sg.Text("delta_p",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "delta_p")],
-                            [sg.Text("delta_h",size=(10, 1)),
+                            [sg.Text("delta_h",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "delta_h")],
-                            [sg.Text("sp",size=(10, 1)),
-                             sg.Text("",size=(60, 1),key = "sp")],
                             
                            ]),
            sg.Frame("記録データ表",
@@ -119,7 +126,7 @@ while True:
             delta_d = ksp.results['delta_d']
             delta_p = ksp.results['delta_p']
             delta_h = ksp.results['delta_h']
-            sp = ksp.results['delta_total']
+            parameter = values["parameter"]
             
             # 画像をウィンドウ内のsg.Imageコンポーネントに更新
             window["-IMAGE-"].update("images/mol_structure.png")
@@ -132,20 +139,23 @@ while True:
             window["delta_d"].update(f"{delta_d}")
             window["delta_p"].update(f"{delta_p}")
             window["delta_h"].update(f"{delta_h}")
-            window["sp"].update(f"{sp}")
+            window["parameter"].update(f"{parameter}")
 
         except:
             pass
             
     if event == "記録":
 
+        #Parameterの更新
+        parameter = values["parameter"]
+        
         #追加データ行の作製
         if values["Tag"] !="":
             tag = values["Tag"] #TagがあるときはTag名に
         else:
             tag = values["-INPUT-"] #入力がない時はINPUTを適用
             
-        new_row = [tag,smiles,mw,dens,vol,delta_d,delta_p,delta_h,sp]
+        new_row = [tag,smiles,mw,dens,vol,delta_d,delta_p,delta_h,parameter]
         new_row_df = pd.DataFrame([new_row],columns = columns_name)
 
 
@@ -179,7 +189,9 @@ while True:
         Read_Name = values["Tag"]
         if Read_Name in material_df["Tag"].to_list():        
             target_row =material_df[material_df["Tag"] == Read_Name]
+            #ターゲット行のSMILES取得
             smiles = target_row["SMILES"].to_numpy()[0]
+            parameter = target_row["Parameter"].to_numpy()[0]
             window["-INPUT-"].update(smiles)
             window["-2-"].update(True)
             
@@ -189,11 +201,12 @@ while True:
             ksp= fc.Krevelen_sp(smiles)
             mw = ksp.mw
             vol = ksp.vol
-            dens = ksp.mw/ksp.vol
+            dens= ksp.mw/ksp.vol
+            
             delta_d = ksp.results['delta_d']
             delta_p = ksp.results['delta_p']
             delta_h = ksp.results['delta_h']
-            sp = ksp.results['delta_total']
+
             # 画像をウィンドウ内のsg.Imageコンポーネントに更新
             window["-IMAGE-"].update("images/mol_structure.png")
             
@@ -205,7 +218,7 @@ while True:
             window["delta_d"].update(f"{delta_d}")
             window["delta_p"].update(f"{delta_p}")
             window["delta_h"].update(f"{delta_h}")
-            window["sp"].update(f"{sp}")
+            window["parameter"].update(f"{parameter}")
             
     if event == "SP空間散布図":
         
@@ -213,9 +226,10 @@ while True:
         x = material_df["delta_d"].tolist()
         y = material_df["delta_p"].tolist()
         z = material_df["delta_h"].tolist()
+        p = material_df["Parameter"].to_numpy()
 
         
-        fc.scatter3d(x,y,z,tag)
+        fc.scatter3d(x,y,z,p,tag)
 
     if event == "SP距離マッピング":
         
@@ -223,6 +237,7 @@ while True:
         x = material_df["delta_d"].to_numpy()
         y = material_df["delta_p"].to_numpy()
         z = material_df["delta_h"].to_numpy()
+
 
         fc.sp_distance_map(x,y,z,tag)
 
