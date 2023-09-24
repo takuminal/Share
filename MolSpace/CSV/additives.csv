@@ -1,5 +1,5 @@
-Name,Conc,Isocyanate,Melamine,Oxazolyne,Carbodiimide
-Symel 303L,98,0,6,0,0
-Epocross 700W,20,0,0,5,0
-Duranate 40A-100,100,4,0,0,0
-Carbodilite E40,30,0,0,0,4.5
+Name,Conc,feed,Isocyanate,Melamine,Oxazolyne,Carbodiimide
+Symel 303L,98,0,0,6,0,0
+Epocross 700W,20,0,0,0,5,0
+Duranate 40A-100,100,0,4,0,0,0
+Carbodilite E40,30,0,0,0,0,4.5

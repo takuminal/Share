@@ -51,7 +51,7 @@ try:
     composition_df = pd.read_csv("CSV/polymer_composition.csv",encoding ="shift-jis")
     composition_df.fillna(0, inplace=True) #NaNの0フィル
 except:
-    composition_df = pd.DataFrame(columns=["Name","Y value"])
+    composition_df = pd.DataFrame(columns=["Name","Conc"])
     composition_df.fillna(0, inplace=True) #NaNの0フィル
 
 functional_df =  composition_to_function(monomer_df,composition_df)
@@ -77,7 +77,7 @@ layout = [[sg.Text('Polymers', font=('Constantia',20,"bold"))],
                     text_color='black',
                     background_color='honeydew'
                    )],
-          [sg.Text("特性値",size=(15, 1)), 
+          [sg.Text("濃度(%)",size=(15, 1)), 
            sg.Input(size=(50, 1),
                     key = "val",
                     text_color='black',
