@@ -1,0 +1,3 @@
+Tag,ChemicalName,SMILES,MW (g/mol),logP,MR,carboxy,carboxylate,hydroxy,ether,ester,ketone,epoxy,amide,cyano,amine,ammonium,phenyl,methyl,methylene,methyne,quat_carbon,vinyl,asetylene,siloxane
+MMA,methyl methacrylate,CC(=C)C(=O)OC,100.11699999999999,0.7355,26.829999999999988,0.0,0.0,0.0,0.0,9.988313673002589,0.0,0.0,0.0,0.0,0.0,0.0,0.0,19.976627346005177,0.0,0.0,0.0,9.988313673002589,0.0,0.0
+HEMA,hema,CC(=C)C(=O)OCCO,130.143,0.09800000000000003,32.85879999999999,0.0,0.0,7.68385545131125,0.0,7.68385545131125,0.0,0.0,0.0,0.0,0.0,0.0,0.0,7.68385545131125,15.3677109026225,0.0,0.0,7.68385545131125,0.0,0.0
