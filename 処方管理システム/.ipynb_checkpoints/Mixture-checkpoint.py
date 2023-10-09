@@ -43,9 +43,9 @@ shoho_head = [f"{i}" for i in range(10)]
 shoho_df=pd.DataFrame([])
 
 # GUIのレイアウト
-sg.theme("DefaultNoMoreNagging")
+sg.theme("DarkGray6")
 
-layout = [[sg.Text("処方管理システム / 配合", font=('System',10,"bold"))],
+layout = [[sg.Text("処方管理システム / Mixture", font=('Arial',10,"bold"))],
           [sg.Frame("Main",
                     layout = [
                         [sg.Button("計算",size = (10,1)),
@@ -59,16 +59,22 @@ layout = [[sg.Text("処方管理システム / 配合", font=('System',10,"bold"
                         [sg.Text("サンプル名",size=(15, 1)),
                          sg.Combo(brend_df["Name"].tolist(),
                                   size=(50, 1),
-                                  key = "sample_name")],
+                                  key = "sample_name",
+                                  background_color="gray80",text_color="darkblue"
+                                 )],
 
                         [sg.Text("濃度",size=(15, 1)),
                          sg.Input(size=(10, 1),
                                   default_text="10",
-                                  key = "conc")],
+                                  key = "conc",
+                                  background_color="gray80",text_color="darkblue"
+                                 )],
                         [sg.Text("スケール",size=(15, 1)),
                          sg.Input(size=(10, 1),
                                   default_text="10",
-                                  key = "scale")],
+                                  key = "scale",
+                                  background_color="gray80",text_color="darkblue"
+                                 )],
                         [sg.Text('_'  * 70)], #横線区切り
                         [sg.Text('主剤',size=(20,1)),
                          sg.Text('固形%',size=(10,1)),
@@ -77,21 +83,27 @@ layout = [[sg.Text("処方管理システム / 配合", font=('System',10,"bold"
 
                         ],
                         [sg.Column(layout=[
-                            [sg.Combo(polymer_names, size=(20, 1),key=f'main_{n}'),
-                             sg.Input("0", size=(10, 1),key=f"main_solid_ratio_{n}"),
-                             sg.Text("0", size=(10, 1),key=f"main_solid_{n}"),
-                             sg.Input("0", size=(10, 1),key=f"main_feed_{n}"
-                                      ,background_color="gray90"),
+                            [sg.Combo(polymer_names, size=(20, 1),key=f'main_{n}',
+                                      background_color="gray90",text_color="darkblue"
+                                     ),
+                             sg.Input("0", size=(10, 1),key=f"main_solid_ratio_{n}",
+                                      background_color="gray90",text_color="darkblue"
+                                     ),
+                             sg.Text("0", size=(10, 1),key=f"main_solid_{n}",background_color="gray25"),
+                             sg.Input("0", size=(10, 1),key=f"main_feed_{n}",background_color="gray25"),
                             ] for n in range(2)],size=(400, 50)  # 列全体のサイズ
                                         )
                         ],
                         [sg.Text('添加剤',size=(20,1))],
                         [sg.Column(layout=[
-                            [sg.Combo(additive_names, size=(20, 1),key=f'ad_{n}'),
-                             sg.Input("0", size=(10, 1), key=f"ad_solid_ratio_{n}"),
-                             sg.Text("0", size=(10, 1), key=f"ad_solid_{n}"),
-                             sg.Input("0", size=(10, 1), key=f"ad_feed_{n}"
-                                      ,background_color="gray90"),
+                            [sg.Combo(additive_names, size=(20, 1),key=f'ad_{n}',
+                                      background_color="gray90",text_color="darkblue"
+                                     ),
+                             sg.Input("0", size=(10, 1), key=f"ad_solid_ratio_{n}",
+                                      background_color="gray90",text_color="darkblue"
+                                     ),
+                             sg.Text("0", size=(10, 1), key=f"ad_solid_{n}",background_color="gray25"),
+                             sg.Input("0", size=(10, 1), key=f"ad_feed_{n}",background_color="gray25"),
 
 
                             ] for n in range(5)],
@@ -99,14 +111,20 @@ layout = [[sg.Text("処方管理システム / 配合", font=('System',10,"bold"
                                   )
                               ],
                         [sg.Text("希釈溶媒",size=(20,1))],
-                        [sg.Combo(solvent_names,size=(20,1),key="solvent"),
+                        [sg.Combo(solvent_names,size=(20,1),key="solvent",
+                                  background_color="gray80",text_color="darkblue"
+                                 ),
                          sg.Text("",size=(20,1)),
-                         sg.Input("",size=(10,1),key="solvent_wt",background_color="gray90")],
+                         sg.Input("",size=(10,1),key="solvent_wt",background_color="gray25")],
 
                         [sg.Text('試験名',size=(20,1)),sg.Text('値',size=(20,1))],
                         [sg.Column(layout=[
-                            [sg.Combo(test_name,size=(20, 1),key=f'res_name_{n}'),
-                             sg.Input("0", size=(10, 1), key=f"res_value_{n}")
+                            [sg.Combo(test_name,size=(20, 1),key=f'res_name_{n}',
+                                      background_color="gray80",text_color="darkblue"
+                                     ),
+                             sg.Input("0", size=(10, 1), key=f"res_value_{n}",
+                                      background_color="gray80",text_color="darkblue"
+                                     )
                             ] for n in range(3)],
                                    size=(400, 100)  # 列全体のサイズ
                                   )
@@ -123,9 +141,13 @@ layout = [[sg.Text("処方管理システム / 配合", font=('System',10,"bold"
                       num_rows=min(20, 15))],
 
                      [sg.Text("処方名",size=(15, 1)),
-                      sg.Input("",size=(30, 1),key = "shoho_name")],
+                      sg.Input("",size=(30, 1),key = "shoho_name",
+                               background_color="gray80",text_color="darkblue"
+                              )],
                      [sg.Text("サンプル選択",size=(15, 1)),
-                      sg.Combo(brend_df["Name"].tolist(),size=(30, 1),key = "shoho-ad"),
+                      sg.Combo(brend_df["Name"].tolist(),size=(30, 1),key = "shoho-ad",
+                               background_color="gray80",text_color="darkblue"
+                              ),
                       sg.Button("処方に追加")],
 
                      [sg.Table(headings=shoho_head,
@@ -157,6 +179,8 @@ window = sg.Window("Brend",
                    size=window_size,
                    resizable=True,
                    location=win_location)
+
+
 while True:
     event, values = window.read()
     if event == sg.WINDOW_CLOSED:

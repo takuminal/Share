@@ -1,6 +1,6 @@
 
 class count_functional_groups:
-    def __init__(self,smiles="C"):
+    def __init__(self,smiles=""):
         from rdkit import Chem
         from rdkit.Chem import Descriptors
         from rdkit.Chem import Crippen

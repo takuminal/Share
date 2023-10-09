@@ -61,9 +61,9 @@ composition_df.to_csv("CSV/polymer_composition.csv",index=False,encoding ="shift
 
 
 # GUIのレイアウト
-sg.theme("DefaultNoMoreNagging")
+sg.theme("DarkGray6")
 
-layout = [[sg.Text("処方管理システム / Polymer", font=("System",10,"bold"))],
+layout = [[sg.Text("処方管理システム / Polymer", font=("Arial",10,"bold"))],
           [sg.Text("")],
           [sg.Button("実行",size = (11,1)),
            sg.Button("データ読込",size = (11,1)),
@@ -71,17 +71,23 @@ layout = [[sg.Text("処方管理システム / Polymer", font=("System",10,"bold
           [sg.Text(' '  * 70)], #横線区切り
           [sg.Text("サンプル名",size=(15, 1)),
            sg.Combo(functional_df["Name"].tolist(),size=(50, 1),
-                    key = "sample_name")],
+                    key = "sample_name",
+                    background_color="gray80",text_color="darkblue"
+                   )],
           [sg.Text("濃度(%)",size=(15, 1)),
            sg.Input(size=(50, 1),
                     key = "conc",
+                    default_text = "50",
+                    background_color="gray80",text_color="darkblue"
                    )],
           [sg.Text('_'  * 150)], #横線区切り
           [sg.Text('原料品名',size=(20,1)),sg.Text('仕込み量',size=(20,1))],
           [sg.Column(layout=[
                   [
-                      sg.Combo(materials, size=(20, 1),key=f'material_{n}'),
-                      sg.Input("0", size=(20, 1),key=f"feed_{n}")
+                      sg.Combo(materials, size=(20, 1),key=f'material_{n}',
+                               background_color="gray80",text_color="darkblue"),
+                      sg.Input("0", size=(20, 1),key=f"feed_{n}",
+                               background_color="gray80",text_color="darkblue")
                   ] for n in range(13)],
               size=(400, 400)  # 列全体のサイズ
               ),

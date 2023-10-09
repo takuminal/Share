@@ -17,7 +17,7 @@ properties = brend_df.columns.tolist()[1:] #官能基の情報のみ
 # GUIのレイアウト
 sg.theme("DefaultNoMOreNagging")
 
-layout = [[sg.Text('3dscatter', font=('Constantia',20,"bold"))],
+layout = [[sg.Text('処方管理システム/Visualize', font=('Arial',20,"bold"))],
           [sg.Text("")],
 
           [sg.Text("X",size = (15,1)),

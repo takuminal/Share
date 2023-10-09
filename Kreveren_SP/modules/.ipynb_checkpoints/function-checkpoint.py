@@ -129,7 +129,7 @@ def save_img(smiles):
 def scatter3d(x,y,z,param,tag=None):
     
     import matplotlib.pyplot as plt
-    fig = plt.figure(figsize = (15,15))
+    fig = plt.figure(figsize = (8,8))
     ax = fig.add_subplot(projection='3d')
     ax.set_xlabel('delta_d')
     ax.set_ylabel('delta_p')

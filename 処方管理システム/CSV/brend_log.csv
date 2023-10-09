@@ -1,7 +1,8 @@
 sample_name,conc,scale,main_0,main_solid_ratio_0,main_feed_0,main_1,main_solid_ratio_1,main_feed_1,ad_0,ad_solid_ratio_0,ad_feed_0,ad_1,ad_solid_ratio_1,ad_feed_1,ad_2,ad_solid_ratio_2,ad_feed_2,ad_3,ad_solid_ratio_3,ad_feed_3,ad_4,ad_solid_ratio_4,ad_feed_4,solvent,solvent_wt,res_name_0,res_value_0,res_name_1,res_value_1,res_name_2,res_value_2,output_table,shoho_name,shoho-ad,output_table2
-brend1,10,10,No1,90,1.8 g,,0,0 g,Additive1,10,1.0 g,,0,0 g,,0,0 g,,0,0 g,,0,0 g,PW,7.2 g,Test1,0,,0,,0,[],,,[]
-brend10,10,10,No5,90,1.8 g,,0,0 g,Additive2,10,0.5 g,,0,0 g,,0,0 g,,0,0 g,,0,0 g,PW,7.7 g,Test1,0,,0,,0,[],,,[]
+brend1,10,10,No1,75,1.5 g,No2,15,0.3 g,Additive1,5,0.5 g,Additive2,0,0.0 g,,0,0 g,,0,0 g,,0,0 g,MIBK,7.7 g,Test1,10,Test2,3,Test3,2,[],,,[]
 brend2,10,10,No2,90,1.8 g,,0,0 g,Additive1,10,1.0 g,,0,0 g,,0,0 g,,0,0 g,,0,0 g,PW,7.2 g,Test1,0,,0,,0,[],,,[]
+brend222,10,10,No1,50,1.0 g,No5,20,0.4 g,Additive4,10,0.25 g,Additive4,20,0.5 g,,0,0 g,,0,0 g,,0,0 g,MIBK,7.85 g,Test1,0,Test2,0,Test3,0,[],,,[]
+brend222,10,10,No1,50,1.0 g,No5,20,0.4 g,Additive4,10,0.25 g,Additive4,20,0.5 g,,0,0 g,,0,0 g,,0,0 g,MIBK,7.85 g,Test1,0,Test2,0,Test3,0,[],,,[]
 brend3,10,10,No3,90,1.8 g,,0,0 g,Additive1,10,1.0 g,,0,0 g,,0,0 g,,0,0 g,,0,0 g,PW,7.2 g,Test1,0,,0,,0,[],,,[]
 brend4,10,10,No4,90,1.8 g,,0,0 g,Additive1,10,1.0 g,,0,0 g,,0,0 g,,0,0 g,,0,0 g,PW,7.2 g,Test1,0,,0,,0,[],,,[]
 brend5,10,10,No5,90,1.8 g,,0,0 g,Additive1,10,1.0 g,,0,0 g,,0,0 g,,0,0 g,,0,0 g,PW,7.2 g,Test1,0,,0,,0,[],,,[]

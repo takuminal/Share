@@ -30,15 +30,19 @@ except:
 
 
 #全体のレイアウト
-sg.theme("DefaultNoMoreNagging")
+sg.theme("DarkGray6")
 
-layout = [[sg.Text('処方管理システム / Monomer', font=('System',10,"bold"))],
+layout = [[sg.Text('処方管理システム / Monomer', font=("Arial",10,"bold"))],
           [sg.Frame("Main",[[sg.Text("化合物名 / SMILES"),
                              sg.Input(size=(40, 1),
                                       key="-INPUT-",
+                                      background_color="gray60",text_color="darkblue"
                                      ),
                              sg.Text("タグ"),
-                             sg.Input(size=(10, 1),key = "Tag")
+                             sg.Input(size=(10, 1),key = "Tag",
+                                      background_color="gray60",
+                                      text_color="darkblue"
+                                     )
                             ],
                             [sg.Radio('CAS or NAME',default=True, key="-1-", group_id='0'),
                              sg.Radio('SMILES',default=False, key="-2-", group_id='0')],

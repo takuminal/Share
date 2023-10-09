@@ -5,7 +5,7 @@ import pubchempy as pcp
 import csv
 import pandas as pd
 
-sg.theme("DarkBlack1")
+sg.theme("DarkGray6")
 
 
 #記述子名のリスト
@@ -23,17 +23,17 @@ except:
     past_tag = pd.read_csv("CSV/kreveren_sp_monomer.csv")["Tag"].tolist()
 
 #全体のレイアウト
-layout = [[sg.Text('Krevelen SP', font=('Constantia',20,"bold"))],
+layout = [[sg.Text('Van Kreveren SP Estimator', font=('Arial',20,"bold"))],
+          [sg.Push(),sg.Text('Copywrited by Takumi Miyazaki', font=('Arial',10))],
           [sg.Frame("Main",[[sg.Text("化合物名 / SMILES",size=(20, 1)),
                              sg.Input(size=(50, 1), 
                                       key="-INPUT-",
-                                      text_color='black',
-                                      background_color='honeydew'
+                                      background_color="gray80",text_color="darkblue"
                                      )],
                              [sg.Text("タグ",size=(20, 1)),
                               sg.Input(size=(50, 1),key = "Tag" ,
-                                       text_color='black',
-                                       background_color='honeydew')],
+                                      background_color="gray80",text_color="darkblue"
+                                      )],
                             [sg.Radio('CAS or NAME',default=True, key="-1-", group_id='0'),
                              sg.Radio('SMILES',default=False, key="-2-", group_id='0')],
                             [sg.Text("")],
@@ -50,8 +50,7 @@ layout = [[sg.Text('Krevelen SP', font=('Constantia',20,"bold"))],
                              sg.Input("0",
                                       size=(20, 1),
                                       key = "parameter",
-                                      text_color='black',
-                                      background_color='honeydew'
+                                      background_color="gray80",text_color="darkblue"
                                      )],
                             
                             [sg.Text("SMILES",size=(20, 1)),
