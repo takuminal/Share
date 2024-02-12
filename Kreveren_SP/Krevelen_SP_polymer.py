@@ -6,7 +6,9 @@ import csv
 import pandas as pd
 import numpy as np
 
-sg.theme("DarkBlack1")
+
+sg.theme("DarkGray6")
+
 
 
 #記述子名のリスト
@@ -29,11 +31,11 @@ except:
     past_tag = pd.read_csv("CSV/kreveren_sp_polymer.csv")["Tag"].tolist()
 
 #全体のレイアウト
-layout = [[sg.Text('Krevelen SP', font=('Constantia',20,"bold"))],
+layout = [[sg.Text('Krevelen SP', font=('Arial',20,"bold"))],
           [sg.Frame("Main",[[sg.Text("タグ",size=(10, 1)),
                              sg.Input(size=(40, 1),key = "Tag" ,
-                                      text_color='black',
-                                      background_color='honeydew')],      
+                                      background_color="gray80",text_color="darkblue"
+                                     )],      
                             [sg.Button("実行",size=(10,1)),
                              sg.Button("記録",size=(10,1)),
                              sg.Button("削除",size=(10,1)),
@@ -46,14 +48,12 @@ layout = [[sg.Text('Krevelen SP', font=('Constantia',20,"bold"))],
                                 [sg.Combo(monomer_tag, 
                                           size=(20, 1),
                                           key= f'material_{n}',
-                                          text_color='black',
-                                          background_color='honeydew'
+                                          background_color="gray80",text_color="darkblue"
                                                   ),
                                           sg.Input("0", 
                                                    size=(20, 1), 
                                                    key=f"feed_{n}",
-                                                   text_color='black',
-                                                   background_color='honeydew'
+                                                   background_color="gray80",text_color="darkblue"
                                                   )
                                       ] for n in range(10)],
                                          
@@ -63,8 +63,7 @@ layout = [[sg.Text('Krevelen SP', font=('Constantia',20,"bold"))],
                              sg.Input(0,
                                       size=(20, 1),
                                       key = "parameter",
-                                      text_color='black',
-                                      background_color='honeydew'
+                                      background_color="gray80",text_color="darkblue"
                                      )],
                             [sg.Text("MW (g/mol)",size=(20, 1)),
                              sg.Text("",size=(60, 1),key = "MW")],
