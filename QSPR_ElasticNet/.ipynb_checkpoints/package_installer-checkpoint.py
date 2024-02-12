@@ -42,7 +42,7 @@ for package_name in  package_list:
         checker = checker*False
 
 if checker ==True:
-    print("ALL PACKAGES ARE SUCCESFULLY INSTALLED (^_-)")
+    print("ALL PACKAGES ARE SUCCESSFULLY INSTALLED (^_-)")
 import time
 # 5秒間待機
 time.sleep(10)
