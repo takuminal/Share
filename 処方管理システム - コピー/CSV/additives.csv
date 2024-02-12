@@ -1,0 +1,11 @@
+Name,Conc,feed,Feature1,Feature2,Feature3,Feature4,Feature5
+Additive1,10,,10,0,0,0,0
+Additive2,20,,0,10,0,0,0
+Additive3,30,,0,0,10,0,0
+Additive4,40,,0,0,0,10,0
+Additive5,50,,0,0,0,0,10
+Additive6,60,,10,0,10,0,0
+Additive7,70,,0,10,0,10,0
+Additive8,80,,0,0,0,0,10
+Additive9,90,,0,0,0,10,0
+Additive10,100,,0,10,0,0,0
