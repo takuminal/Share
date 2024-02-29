@@ -1,0 +1,110 @@
+,Monomer ,Q,e,MW
+0,Acenaphthylene,0.72,-1.88,
+1,"Acetylene, phenyl",0.45,0.1,
+2,"Aconitate, trimethyl",0.25,2.27,
+3,Acrolein,0.8,1.31,56.064
+4,"Acrolein, methyl",1.83,0.71,
+5,Acrylamide,0.23,0.54,
+6,"Acrylamide, N-methylol",0.52,1.15,
+7,"Acrylamide, N-octadecyl",0.66,1.64,
+8,"Acrylate, benzyl",0.33,1.13,
+9,"Acrylate, butyl",0.38,0.85,128.17
+10,"Acrylate, 2-chloroethyl",0.49,1.03,
+11,"Acrylate, α-chloro-, methyl",2.43,0.35,
+12,"Acrylate, α-cyano-, methyl",4.91,0.91,
+13,"Acrylate, ethyl",0.41,0.55,100.12
+14,"Acrylate, methyl",0.45,0.64,86.09
+15,"Acrylate, octadecyl",0.33,1.26,324.549
+16,"Acrylate, octyl",0.63,2.01,184.279
+17,"Acrylate, 2-nitrobutyl",0.69,1.09,
+18,"Acrylate, α-phenyl-, methyl",5.19,0.96,
+19,Acrylic Acid,0.83,0.88,72.06
+20,Acrylonitrile (reference),0.48,1.23,
+21,Acryloyl chloride,1.82,1.92,
+22,Allyl acetate,0.24,-1.07,
+23,Allyl chloride,0.026,-0.6,
+24,"Aniline, N,N-divinyl",0.26,-0.68,
+25,"Benzothiazole, vinylmercapto-",0.36,-0.44,
+26,"Butadiene-1-carboxylate, ethyl",1.67,1.26,
+27,"Butadiene, 1,4-dicarboxylate-, diethyl",1.94,1.39,
+28,"Butadiene, 2-chloro-",10.52,1.2,
+29,"Butadiene, 2-fluoro-",1.88,0.63,
+30,"Carbazole, N-vinyl",0.26,-1.29,
+31,"Citraconimide, N-methyl-",0.87,1.58,
+32,Crotonaldehyde,0.023,0.84,
+33,Crotonic acid,0.017,0.89,
+34,Diallylphthalate,0.031,-0.26,
+35,Ethylene,0.016,0.05,28.05
+36,"Ethylene, tetrachloro-",0.001,1.24,
+37,"Ethylene, trichloro-",0.01,1.29,
+38,"Ethylene, diphenyl-",0.17,-1.71,
+39,"Fumarate, diethyl",0.25,2.26,
+40,"Fumarate, diisopropyl",0.11,2.58,
+41,"Hexatriene, tetrachloro-",1.83,0.94,
+42,"lmidazole, N-vinyl",0.11,-0.68,
+43,Isoprene,1.99,-0.55,
+44,Isopropenyl isocyanate,0.18,-1.05,
+45,Isopropenyl methyl ketone,1.03,0.64,
+46,ltaconic acid,0.78,1.07,
+47,"Maleate, diethyl",0.053,1.08,172.17
+48,Maleic anhydride,0.86,3.69,98.056
+49,"Maleimide, N-(2-chlorophenyl)-",2.29,2.87,
+50,"Methacrylamide, N-phenyl-",0.4,0.19,
+51,"Methacrylate, benzyl",0.88,0.35,176.215
+52,"Methacrylate, 2-bromoethyl",1.18,0.74,
+53,"Methacrylate, butyl",0.82,0.28,142.197
+54,"Methacrylate, isobutyl",0.82,0.27,142.197
+55,"Methacrylate, stearyl",,,
+56,"Methacrylate, 2-chloroethyl",1.04,0.31,
+57,"Methacrylate, ferrocenylmethyl",0.22,0.65,
+58,"Methacrylate, glycidyl",0.96,0.25,142.154
+59,"Methacrylate, 2-hydroxyethyl",1.78,-0.39,130.143
+60,"Methacrylate, 2-hydroxypropyl",4.38,1.86,144.17
+61,"Methacrylate, methyl",0.78,0.4,100.1169
+62,"Methacrylate, isobornyl",0.54,0.41,222.327
+63,"Methacrylate, 2,2,6,6-tetramethyl-4-piperidinyl-",0.52,-1.09,
+64,"Methacrylate, phenyl",1.25,0.79,
+65,Methacrylic acid,0.98,0.62,86.0899
+66,Methacrylonitrile,0.86,0.68,
+67,Methacryloylacetone,5.47,-0.76,
+68,Methylenebutyrolactone,2.48,0.83,
+69,"Oct-1-ene, 6,6-dimethyl-4,8-dioxaspiro(2,5)-",0.25,0.61,
+70,"Oxazoline, 2-isopropenyl-",0.59,-0.64,
+71,"Oxazoline, 2-isopropenyl-4,4-dimethyl-",0.87,0.34,
+72,"Propene, 3,3,3-trichloro-",0.03,1.0,
+73,"Pyridazinone, 3-(2-vinyl)-6-methyl-",0.57,0.24,
+74,"Pyridazinone, 3-(2-vinyl)-6-methyl-4,5-dihydro-",0.18,-0.32,
+75,"Pyridine, 2-methyl-5-vinyl-",1.32,-0.66,
+76,"Pyridine, 2-vinyl-",1.41,-0.42,
+77,"Pyridine, 2-vinyl-5-ethyl-",1.29,-0.91,
+78,"Pyridine, 4-vinyl-",2.47,0.84,
+79,Styrene,1.0,-0.8,104.15
+80,"Styrene, 3-tri-n-butylstannyl-",0.014,-0.61,
+81,"Styrene, 2,5-dichloro-",1.5,0.94,
+82,"Styrene, p-chloromethyl-",1.39,-0.38,
+83,"Styrene, p-1-(2-hydroxypropyl)-",1.08,-0.35,
+84,"Styrene, α-methoxy",1.53,-1.4,
+85,"Styrene, α-methyl",0.97,-0.81,
+86,"Styrene, p-methyl",1.1,-0.63,
+87,"Succinimide, N-vinyl",0.19,-1.42,
+88,"Tetrazole, 1-vinyl-",0.13,-0.14,
+89,"Tetrazole, 5-phenyl-2-(4'-vinyl)-phenyl-",1.11,0.53,
+90,"Toluenesulphonamide, N,N-methyl-vinyl-",0.18,-0.53,
+91,Triallyl citrate,0.054,0.26,
+92,Vinyl acetate,0.026,-0.88,86.09
+93,Vinyl benzoate,0.03,-0.89,
+94,Vinyl bromide,0.038,-0.23,
+95,Vinyl isobutyl ether,0.03,-1.27,
+96,Vinyl isobutyl sulfide,0.49,-0.95,
+97,Vinyl tert-butyl sulfide,0.046,-2.2,
+98,Vinyl chloride,0.056,0.16,
+99,Vinyl chloroacetate,0.039,-1.61,
+100,Vinyl dichloroacetate,0.059,-1.38,
+101,Vinyl 2-chloroethyl ether,0.019,-1.64,
+102,Vinyl chloromethyl ketone,16.0,1.78,
+103,Vinyl cymantrene,0.39,-0.57,
+104,Vinyl dodecyl ether,0.041,-1.69,
+105,Vinylene carbonate,0.04,-0.49,
+106,Vinyl ethyl ether,0.018,-1.8,
+107,Vinyl ethyl oxalate,0.056,-0.65,
+108,Vinyl ethyl sulfide,0.27,-1.31,
